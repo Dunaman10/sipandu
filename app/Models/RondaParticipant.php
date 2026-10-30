@@ -15,7 +15,6 @@ class RondaParticipant extends Model
     protected $fillable = [
         'ronda_schedule_id',
         'warga_id',
-        'status_kehadiran',
         'catatan_keterangan',
     ];
 
@@ -27,16 +26,5 @@ class RondaParticipant extends Model
     public function warga(): BelongsTo
     {
         return $this->belongsTo(Warga::class);
-    }
-
-    public function getStatusLabelAttribute(): string
-    {
-        return match ($this->status_kehadiran) {
-            'hadir' => 'Hadir',
-            'izin' => 'Izin',
-            'alpha' => 'Alpha',
-            'digantikan' => 'Digantikan',
-            default => ucfirst($this->status_kehadiran),
-        };
     }
 }

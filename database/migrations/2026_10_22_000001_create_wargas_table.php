@@ -29,8 +29,7 @@ return new class extends Migration
             $table->enum('status_kepemilikan_rumah', ['milik_sendiri', 'sewa_kontrak', 'menumpang'])->default('milik_sendiri');
             $table->enum('kondisi_rumah', ['layak_huni', 'kurang_layak', 'tidak_layak'])->default('layak_huni');
             $table->integer('skor_kondisi_rumah')->default(1);
-            $table->enum('status_iuran', ['lancar', 'menunggak'])->default('lancar');
-            $table->text('catatan_bendahara')->nullable();
+            $table->text('keterangan')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();

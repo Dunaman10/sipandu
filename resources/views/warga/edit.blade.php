@@ -203,25 +203,14 @@
                         </select>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Status Pembayaran Iuran RT <span class="text-red-500">*</span></label>
-                        <select
-                            name="status_iuran"
-                            required
-                            class="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-xs text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
-                        >
-                            <option value="lancar" {{ old('status_iuran', $warga->status_iuran) == 'lancar' ? 'selected' : '' }}>Lancar</option>
-                            <option value="menunggak" {{ old('status_iuran', $warga->status_iuran) == 'menunggak' ? 'selected' : '' }}>Menunggak</option>
-                        </select>
-                    </div>
 
                     <div class="sm:col-span-2">
-                        <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Catatan Bendahara / Keterangan Khusus</label>
+                        <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Keterangan Khusus</label>
                         <textarea
-                            name="catatan_bendahara"
+                            name="keterangan"
                             rows="2"
                             class="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-xs text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
-                        >{{ old('catatan_bendahara', $warga->catatan_bendahara) }}</textarea>
+                        >{{ old('keterangan', $warga->keterangan) }}</textarea>
                     </div>
                 </div>
             </div>

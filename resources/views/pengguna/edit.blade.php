@@ -96,7 +96,7 @@
                 >
                     <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Administrator (Kelola User & Konfigurasi Sistem)</option>
                     <option value="ketua_rt" {{ old('role', $user->role) === 'ketua_rt' ? 'selected' : '' }}>Ketua RT (Data Warga, K-Means Clustering, Ronda Malam)</option>
-                    <option value="bendahara" {{ old('role', $user->role) === 'bendahara' ? 'selected' : '' }}>Bendahara (Kelola Iuran Kas Warga & Laporan Keuangan)</option>
+                    <option value="bendahara" {{ old('role', $user->role) === 'bendahara' ? 'selected' : '' }}>Bendahara (Lihat Data Warga & Cetak Laporan)</option>
                 </select>
             </div>
 

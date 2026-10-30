@@ -19,6 +19,7 @@
             </div>
         </div>
 
+        @if(auth()->user()->isAdmin() || auth()->user()->isKetuaRt())
         <div class="flex items-center gap-2">
             <a href="{{ route('warga.edit', $warga->id) }}" class="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-amber-600 transition">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,6 +28,7 @@
                 Ubah Biodata
             </a>
         </div>
+        @endif
     </div>
 
     <!-- 2 Column Profile Cards -->
@@ -82,11 +84,9 @@
                         <span class="text-gray-400">Jumlah Tanggungan:</span>
                         <span class="font-bold text-gray-800 dark:text-gray-200">{{ $warga->jumlah_tanggungan }} Orang</span>
                     </div>
-                    <div class="flex justify-between py-1.5">
-                        <span class="text-gray-400">Status Iuran Kas RT:</span>
-                        <span class="font-bold {{ $warga->status_iuran === 'lancar' ? 'text-emerald-600' : 'text-rose-600' }}">
-                            {{ ucfirst($warga->status_iuran) }}
-                        </span>
+                    <div class="flex justify-between gap-4 py-1.5">
+                        <span class="text-gray-400 shrink-0">Keterangan:</span>
+                        <span class="font-medium text-right text-gray-800 dark:text-gray-200">{{ $warga->keterangan ?? '-' }}</span>
                     </div>
                 </div>
             </div>
@@ -130,59 +130,17 @@
             </div>
         </div>
 
-        <!-- Right: Riwayat Kas & Kehadiran Ronda (7 Cols) -->
+        <!-- Right: Jadwal Penugasan Ronda (7 Cols) -->
         <div class="lg:col-span-7 space-y-6">
-            <!-- Riwayat Kas Iuran -->
+            <!-- Penugasan Jadwal Ronda Malam -->
             <div class="rounded-3xl border border-gray-200/80 bg-white p-6 shadow-xs dark:border-gray-800 dark:bg-gray-900">
                 <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
-                    <h3 class="text-sm font-bold text-gray-900 dark:text-white">Riwayat Iuran Kas RT</h3>
-                    <a href="{{ route('kas.index', ['search' => $warga->nama_lengkap]) }}" class="text-xs font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400">
-                        Kelola di Menu Kas &rarr;
-                    </a>
-                </div>
-
-                <div class="mt-4 overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="text-gray-400 border-b border-gray-100 dark:border-gray-800 font-semibold uppercase">
-                            <tr>
-                                <th class="pb-2.5">Periode</th>
-                                <th class="pb-2.5">Nominal</th>
-                                <th class="pb-2.5">Status</th>
-                                <th class="pb-2.5">Tgl Bayar</th>
-                                <th class="pb-2.5">Keterangan</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                            @forelse($warga->kasWargas as $kas)
-                            <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/40">
-                                <td class="py-2.5 font-bold text-gray-800 dark:text-gray-200">{{ $kas->periode_bulan }}</td>
-                                <td class="py-2.5 font-semibold text-gray-900 dark:text-white">{{ $kas->formatted_nominal }}</td>
-                                <td class="py-2.5">
-                                    @if($kas->status_pembayaran === 'lunas')
-                                        <span class="rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">Lunas</span>
-                                    @else
-                                        <span class="rounded-md bg-rose-50 px-2 py-0.5 text-[10px] font-bold text-rose-700 dark:bg-rose-950/60 dark:text-rose-300">Belum Lunas</span>
-                                    @endif
-                                </td>
-                                <td class="py-2.5 text-gray-500">{{ $kas->tanggal_bayar ? $kas->tanggal_bayar->format('d/m/Y') : '-' }}</td>
-                                <td class="py-2.5 text-gray-500 truncate max-w-xs">{{ $kas->keterangan ?? '-' }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="py-4 text-center text-gray-400">Belum ada riwayat tagihan iuran kas.</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Riwayat Tugas Ronda Malam -->
-            <div class="rounded-3xl border border-gray-200/80 bg-white p-6 shadow-xs dark:border-gray-800 dark:bg-gray-900">
-                <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
-                    <h3 class="text-sm font-bold text-gray-900 dark:text-white">Riwayat Kehadiran Ronda Malam</h3>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-900 dark:text-white">Jadwal Penugasan Ronda Malam</h3>
+                        <p class="text-[11px] text-gray-400 mt-0.5">Daftar giliran piket pos keamanan lingkungan RT 03</p>
+                    </div>
                     <a href="{{ route('ronda.index') }}" class="text-xs font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400">
-                        Jadwal Ronda &rarr;
+                        Lihat Semua Jadwal &rarr;
                     </a>
                 </div>
 
@@ -192,31 +150,21 @@
                             <tr>
                                 <th class="pb-2.5">Tanggal Ronda</th>
                                 <th class="pb-2.5">Shift</th>
-                                <th class="pb-2.5">Status Kehadiran</th>
-                                <th class="pb-2.5">Catatan / Keterangan</th>
+                                <th class="pb-2.5">Instruksi / Catatan Jadwal</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                             @forelse($warga->rondaParticipants as $rp)
                             <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/40">
                                 <td class="py-2.5 font-bold text-gray-800 dark:text-gray-200">
-                                    {{ $rp->schedule->tanggal_ronda ? $rp->schedule->tanggal_ronda->format('d/m/Y') : '-' }}
+                                    {{ $rp->schedule->tanggal_ronda ? $rp->schedule->tanggal_ronda->isoFormat('dddd, D MMMM Y') : '-' }}
                                 </td>
-                                <td class="py-2.5 text-gray-600 dark:text-gray-400">{{ $rp->schedule->shift_ronda ?? 'Malam' }}</td>
-                                <td class="py-2.5">
-                                    <span class="rounded-md px-2 py-0.5 text-[10px] font-bold
-                                        @if($rp->status_kehadiran === 'hadir') bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300
-                                        @elseif($rp->status_kehadiran === 'izin') bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300
-                                        @elseif($rp->status_kehadiran === 'digantikan') bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300
-                                        @else bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 @endif">
-                                        {{ $rp->status_label }}
-                                    </span>
-                                </td>
-                                <td class="py-2.5 text-gray-500 truncate max-w-xs">{{ $rp->catatan_keterangan ?? '-' }}</td>
+                                <td class="py-2.5 text-gray-600 dark:text-gray-400 font-medium">{{ $rp->schedule->shift_ronda ?? 'Malam' }}</td>
+                                <td class="py-2.5 text-gray-500 truncate max-w-xs">{{ $rp->schedule->keterangan_khusus ?? 'Patroli rutin pos ronda' }}</td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4" class="py-4 text-center text-gray-400">Belum ada riwayat penugasan ronda malam.</td>
+                                <td colspan="3" class="py-4 text-center text-gray-400">Belum ada riwayat penugasan jadwal ronda malam.</td>
                             </tr>
                             @endforelse
                         </tbody>

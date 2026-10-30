@@ -100,7 +100,7 @@
                 >
                     <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Administrator (Kelola User & Konfigurasi Sistem)</option>
                     <option value="ketua_rt" {{ old('role') === 'ketua_rt' ? 'selected' : '' }}>Ketua RT (Data Warga, K-Means Clustering, Ronda Malam)</option>
-                    <option value="bendahara" {{ old('role') === 'bendahara' ? 'selected' : '' }}>Bendahara (Kelola Iuran Kas Warga & Laporan Keuangan)</option>
+                    <option value="bendahara" {{ old('role') === 'bendahara' ? 'selected' : '' }}>Bendahara (Lihat Data Warga & Cetak Laporan)</option>
                 </select>
             </div>
 

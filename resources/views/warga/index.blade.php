@@ -16,14 +16,25 @@
             <a
                 href="{{ route('warga.exportPdf', request()->all()) }}"
                 target="_blank"
-                class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-xs font-bold text-gray-700 shadow-xs hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 transition"
+                class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-xs font-bold text-gray-700 shadow-xs hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 transition"
             >
                 <svg class="h-4 w-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                Cetak PDF Resmi
+                PDF
             </a>
 
+            <a
+                href="{{ route('warga.exportExcel', request()->all()) }}"
+                class="inline-flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50/50 px-3.5 py-2.5 text-xs font-bold text-emerald-700 shadow-xs hover:bg-emerald-100 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-emerald-400 dark:hover:bg-emerald-950/40 transition"
+            >
+                <svg class="h-4 w-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Excel (XLSX)
+            </a>
+
+            @if(auth()->user()->isAdmin() || auth()->user()->isKetuaRt())
             <a
                 href="{{ route('warga.create') }}"
                 class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-brand-500/25 hover:bg-brand-600 transition"
@@ -33,6 +44,7 @@
                 </svg>
                 + Tambah Warga Baru
             </a>
+            @endif
         </div>
     </div>
 
@@ -69,16 +81,17 @@
                 </select>
             </div>
 
-            <!-- Status Iuran -->
+            <!-- Kondisi Rumah -->
             <div>
-                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">Status Iuran Kas</label>
+                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">Kondisi Rumah</label>
                 <select
-                    name="status_iuran"
+                    name="kondisi_rumah"
                     class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                 >
-                    <option value="">Semua Iuran</option>
-                    <option value="lancar" {{ request('status_iuran') == 'lancar' ? 'selected' : '' }}>Lancar</option>
-                    <option value="menunggak" {{ request('status_iuran') == 'menunggak' ? 'selected' : '' }}>Menunggak</option>
+                    <option value="">Semua Kondisi</option>
+                    <option value="layak_huni" {{ request('kondisi_rumah') == 'layak_huni' ? 'selected' : '' }}>Layak Huni</option>
+                    <option value="kurang_layak" {{ request('kondisi_rumah') == 'kurang_layak' ? 'selected' : '' }}>Kurang Layak</option>
+                    <option value="tidak_layak" {{ request('kondisi_rumah') == 'tidak_layak' ? 'selected' : '' }}>Tidak Layak</option>
                 </select>
             </div>
 
@@ -90,7 +103,7 @@
                 >
                     Filter
                 </button>
-                @if(request()->anyFilled(['search', 'status_ktp', 'status_iuran', 'jenis_kelamin', 'kondisi_rumah']))
+                @if(request()->anyFilled(['search', 'status_ktp', 'jenis_kelamin', 'kondisi_rumah']))
                 <a
                     href="{{ route('warga.index') }}"
                     class="rounded-xl border border-gray-300 px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 transition"
@@ -117,7 +130,6 @@
                         <th class="py-3.5 px-4">Tanggungan</th>
                         <th class="py-3.5 px-4">Kondisi Rumah</th>
                         <th class="py-3.5 px-4">Status KTP</th>
-                        <th class="py-3.5 px-4">Status Iuran</th>
                         <th class="py-3.5 px-4 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -159,13 +171,6 @@
                                 <span class="rounded-full bg-rose-100 px-2.5 py-0.5 text-[10px] font-bold text-rose-800 dark:bg-rose-950/80 dark:text-rose-300">Belum KTP</span>
                             @endif
                         </td>
-                        <td class="py-3.5 px-4">
-                            @if($warga->status_iuran === 'lancar')
-                                <span class="rounded-full bg-brand-100 px-2.5 py-0.5 text-[10px] font-bold text-brand-800 dark:bg-brand-950/80 dark:text-brand-300">Lancar</span>
-                            @else
-                                <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 dark:bg-amber-950/80 dark:text-amber-300">Menunggak</span>
-                            @endif
-                        </td>
                         <td class="py-3.5 px-4 text-center">
                             <div class="flex items-center justify-center gap-1.5">
                                 <a href="{{ route('warga.show', $warga->id) }}" class="rounded-lg p-1 text-gray-500 hover:bg-gray-100 hover:text-brand-600 dark:hover:bg-gray-800" title="Lihat Detail">
@@ -174,6 +179,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                     </svg>
                                 </a>
+                                @if(auth()->user()->isAdmin() || auth()->user()->isKetuaRt())
                                 <a href="{{ route('warga.edit', $warga->id) }}" class="rounded-lg p-1 text-gray-500 hover:bg-gray-100 hover:text-amber-600 dark:hover:bg-gray-800" title="Ubah Data">
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
@@ -188,6 +194,7 @@
                                         </svg>
                                     </button>
                                 </form>
+                                @endif
                             </div>
                         </td>
                     </tr>

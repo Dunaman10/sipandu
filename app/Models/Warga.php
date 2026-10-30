@@ -29,8 +29,7 @@ class Warga extends Model
         'status_kepemilikan_rumah',
         'kondisi_rumah',
         'skor_kondisi_rumah',
-        'status_iuran',
-        'catatan_bendahara',
+        'keterangan',
         'created_by',
         'updated_by',
     ];
@@ -55,16 +54,6 @@ class Warga extends Model
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function kasWargas(): HasMany
-    {
-        return $this->hasMany(KasWarga::class);
-    }
-
-    public function latestKas(): HasOne
-    {
-        return $this->hasOne(KasWarga::class)->latestOfMany();
     }
 
     public function clusteringResults(): HasMany

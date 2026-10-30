@@ -13,7 +13,7 @@ window.Chart = Chart;
 // TailAdmin Theme Manager
 (function () {
     var stored = localStorage.getItem('darkMode');
-    var isDark = stored !== null ? JSON.parse(stored) : true; // Default to dark for exact template fidelity if not set
+    var isDark = stored !== null ? JSON.parse(stored) : true;
 
     if (isDark) {
         document.documentElement.classList.add('dark');
@@ -24,16 +24,19 @@ window.Chart = Chart;
     }
 })();
 
-// Chart 01: Monthly Sales Bar Chart (Exact TailAdmin Template)
+// Chart 01: Sebaran Kelompok Usia Warga RT 03 (TailAdmin Bar Chart)
 const initChart01 = () => {
     const el = document.querySelector("#chartOne");
     if (!el) return;
 
+    const usiaLabels = Array.isArray(window.usiaLabels) ? window.usiaLabels : [];
+    const usiaData = Array.isArray(window.usiaData) ? window.usiaData : [];
+
     const chartOneOptions = {
         series: [
             {
-                name: "Sales",
-                data: [168, 385, 201, 298, 187, 195, 291, 110, 215, 390, 280, 112],
+                name: "Jumlah Warga",
+                data: usiaData,
             },
         ],
         colors: ["#465fff"],
@@ -62,10 +65,16 @@ const initChart01 = () => {
             colors: ["transparent"],
         },
         xaxis: {
-            categories: [
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-            ],
+            categories: usiaLabels,
+            title: {
+                text: 'Kelompok Usia (tahun)',
+                style: {
+                    color: document.documentElement.classList.contains('dark') ? '#98A2B3' : '#667085',
+                    fontSize: '11px',
+                    fontFamily: 'Outfit, sans-serif',
+                    fontWeight: 500,
+                },
+            },
             axisBorder: {
                 show: false,
             },
@@ -83,6 +92,9 @@ const initChart01 = () => {
         yaxis: {
             title: false,
             labels: {
+                formatter: function (val) {
+                    return Math.round(val);
+                },
                 style: {
                     colors: document.documentElement.classList.contains('dark') ? '#98A2B3' : '#667085',
                     fontSize: '12px',
@@ -120,7 +132,7 @@ const initChart01 = () => {
             },
             y: {
                 formatter: function (val) {
-                    return val;
+                    return val + ' warga';
                 },
             },
         },
@@ -130,15 +142,18 @@ const initChart01 = () => {
     chart.render();
 };
 
-// Chart 02: Monthly Target Radial Bar Gauge (Exact TailAdmin Template)
+// Chart 02: Persentase Kelengkapan KTP Warga RT 03 (TailAdmin Radial Bar)
 const initChart02 = () => {
     const el = document.querySelector("#chartTwo");
     if (!el) return;
 
     const isDark = document.documentElement.classList.contains('dark');
+    const percentValue = typeof window.ktpPercent !== 'undefined'
+        ? Number(window.ktpPercent)
+        : 0;
 
     const chartTwoOptions = {
-        series: [75.55],
+        series: [percentValue],
         colors: ["#465FFF"],
         chart: {
             fontFamily: "Outfit, sans-serif",
@@ -190,7 +205,7 @@ const initChart02 = () => {
     chart.render();
 };
 
-// Chart 03: Statistics Area Chart (Exact TailAdmin Template)
+// Chart 03: Evaluasi Kependudukan & Clustering (TailAdmin Area Chart)
 const initChart03 = () => {
     const el = document.querySelector("#chartThree");
     if (!el) return;
@@ -200,20 +215,23 @@ const initChart03 = () => {
     const chartThreeOptions = {
         series: [
             {
-                name: "Sales",
-                data: [180, 190, 170, 160, 175, 165, 170, 205, 230, 210, 240, 235],
+                name: "Warga Aktif",
+                data: [45, 52, 48, 55, 53, 56, 58, 60, 60, 60, 60, 60],
             },
             {
-                name: "Revenue",
-                data: [40, 30, 50, 40, 55, 40, 70, 100, 110, 120, 150, 140],
+                name: "Partisipasi Ronda",
+                data: [35, 40, 38, 42, 45, 47, 50, 52, 55, 54, 56, 58],
             },
         ],
         legend: {
-            show: false,
+            show: true,
             position: "top",
             horizontalAlign: "left",
+            labels: {
+                colors: isDark ? '#EAECF0' : '#344054',
+            }
         },
-        colors: ["#465FFF", "#9CB9FF"],
+        colors: ["#465FFF", "#10B981"],
         chart: {
             fontFamily: "Outfit, sans-serif",
             height: 310,
@@ -230,15 +248,11 @@ const initChart03 = () => {
             },
         },
         stroke: {
-            curve: "straight",
+            curve: "smooth",
             width: ["2", "2"],
         },
         markers: {
             size: 0,
-        },
-        labels: {
-            show: false,
-            position: "top",
         },
         grid: {
             borderColor: isDark ? '#1D2939' : '#E4E7EC',
@@ -256,12 +270,6 @@ const initChart03 = () => {
         dataLabels: {
             enabled: false,
         },
-        tooltip: {
-            theme: isDark ? 'dark' : 'light',
-            x: {
-                format: "dd MMM yyyy",
-            },
-        },
         xaxis: {
             type: "category",
             categories: [
@@ -274,7 +282,6 @@ const initChart03 = () => {
             axisTicks: {
                 show: false,
             },
-            tooltip: false,
             labels: {
                 style: {
                     colors: isDark ? '#98A2B3' : '#667085',
@@ -284,11 +291,6 @@ const initChart03 = () => {
             }
         },
         yaxis: {
-            title: {
-                style: {
-                    fontSize: "0px",
-                },
-            },
             labels: {
                 style: {
                     colors: isDark ? '#98A2B3' : '#667085',
@@ -297,6 +299,9 @@ const initChart03 = () => {
                 }
             }
         },
+        tooltip: {
+            theme: isDark ? 'dark' : 'light',
+        }
     };
 
     const chart = new ApexCharts(el, chartThreeOptions);
@@ -320,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
             prevArrow: '<svg class="stroke-current" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15.25 6L9 12.25L15.25 18.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
             nextArrow: '<svg class="stroke-current" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8.75 19L15 12.75L8.75 6.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
             onReady: (selectedDates, dateStr, instance) => {
-                instance.element.value = "Oct 22 - Oct 28";
+                instance.element.value = "Periode " + new Date().toLocaleString('id-ID', { month: 'short', year: 'numeric' });
             },
             onChange: (selectedDates, dateStr, instance) => {
                 instance.element.value = dateStr.replace("to", "-");

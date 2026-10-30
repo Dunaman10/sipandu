@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') | TailAdmin - Tailwind CSS Admin Dashboard</title>
+    <title>@yield('title', 'Dashboard') | SIPANDU RT 03 - TailAdmin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <script>
-        // Init dark mode immediately to avoid flash of white
         (function() {
             var stored = localStorage.getItem('darkMode');
-            var isDark = stored !== null ? JSON.parse(stored) : true; // Default dark for 100% template accuracy
+            var isDark = stored !== null ? JSON.parse(stored) : true;
             if (isDark) {
                 document.documentElement.classList.add('dark');
                 document.documentElement.setAttribute('data-color-scheme', 'dark');
@@ -27,12 +26,11 @@
 </head>
 <body
     x-data="{
-        page: '{{ request()->route()->getName() ?? 'ecommerce' }}',
+        page: '{{ request()->route()->getName() ?? 'dashboard' }}',
         loaded: true,
         darkMode: localStorage.getItem('darkMode') !== null ? JSON.parse(localStorage.getItem('darkMode')) : true,
         stickyMenu: false,
         sidebarToggle: false,
-        scrollTop: false,
         toggleDarkMode() {
             this.darkMode = !this.darkMode;
             localStorage.setItem('darkMode', JSON.stringify(this.darkMode));
@@ -48,7 +46,7 @@
     :class="{'dark bg-gray-900': darkMode === true}"
     class="font-outfit antialiased bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
 >
-    <!-- Small Device Overlay Start -->
+    <!-- Overlay on small devices -->
     <div
         x-show="sidebarToggle"
         @click="sidebarToggle = false"
@@ -61,11 +59,10 @@
         class="fixed inset-0 z-9999 bg-gray-900/50 backdrop-blur-xs xl:hidden"
         x-cloak
     ></div>
-    <!-- Small Device Overlay End -->
 
-    <!-- ===== Page Wrapper Start ===== -->
+    <!-- Page Wrapper Start -->
     <div class="flex h-screen overflow-hidden">
-        <!-- ===== Sidebar Start ===== -->
+        <!-- ===== Sidebar Start (TailAdmin & PRD SIPANDU RT 03 Strictly) ===== -->
         <aside
             :class="sidebarToggle ? 'translate-x-0 xl:w-22.5' : '-translate-x-full xl:translate-x-0'"
             class="sidebar fixed top-0 left-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-auto border-r border-gray-200 bg-white px-5 transition-all duration-300 xl:static xl:translate-x-0 dark:border-gray-800 dark:bg-black"
@@ -77,35 +74,37 @@
                 class="sidebar-header flex items-center gap-2 pt-8 pb-7"
             >
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
-                    <span class="logo flex items-center" :class="sidebarToggle ? 'hidden' : ''">
-                        <img class="dark:hidden h-8 w-auto" src="/images/logo/logo.svg" alt="TailAdmin" />
-                        <img class="hidden dark:block h-8 w-auto" src="/images/logo/logo-dark.svg" alt="TailAdmin" />
+                    <span class="logo flex items-center gap-2 shrink-0 whitespace-nowrap" :class="sidebarToggle ? 'hidden' : 'flex'">
+                        <img class="dark:hidden h-8 w-auto shrink-0" src="/images/logo/logo.svg" alt="SIPANDU Logo" />
+                        <img class="hidden dark:block h-8 w-auto shrink-0" src="/images/logo/logo-dark.svg" alt="SIPANDU Logo" />
+                        <span class="shrink-0 inline-flex items-center rounded bg-brand-50 px-2 py-0.5 text-[11px] font-bold text-brand-600 dark:bg-brand-500/15 dark:text-brand-400 whitespace-nowrap leading-none">
+                            RT 03
+                        </span>
                     </span>
                     <img
                         class="logo-icon h-8 w-8"
                         :class="sidebarToggle ? 'xl:block' : 'hidden'"
                         src="/images/logo/logo-icon.svg"
-                        alt="TailAdmin"
+                        alt="Logo Icon"
                     />
                 </a>
             </div>
             <!-- SIDEBAR HEADER -->
 
+            <!-- Sidebar Navigation -->
             <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
-                <!-- Sidebar Menu -->
-                <nav x-data="{selected: $persist('Dashboard')}">
-                    <!-- Menu Group: MENU -->
+                <nav>
+                    <!-- Menu Group: MENU UTAMA -->
                     <div>
                         <h3 class="mb-4 text-xs leading-5 text-gray-400 uppercase tracking-wider font-semibold">
-                            <span class="menu-group-title" :class="sidebarToggle ? 'xl:hidden' : ''">MENU</span>
+                            <span class="menu-group-title" :class="sidebarToggle ? 'xl:hidden' : ''">MENU UTAMA</span>
                         </h3>
 
-                        <ul class="mb-6 flex flex-col gap-1">
-                            <!-- Menu Item Dashboard -->
+                        <ul class="mb-6 flex flex-col gap-1.5">
+                            <!-- Dashboard -->
                             <li>
                                 <a
                                     href="{{ route('dashboard') }}"
-                                    @click="selected = (selected === 'Dashboard' ? '' : 'Dashboard')"
                                     class="menu-item group {{ request()->routeIs('dashboard') ? 'menu-item-active' : 'menu-item-inactive' }}"
                                 >
                                     <svg
@@ -124,223 +123,129 @@
                                         />
                                     </svg>
                                     <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">
-                                        Dashboard
+                                        Dashboard Ringkasan
                                     </span>
-                                    <svg
-                                        class="menu-item-arrow"
-                                        :class="[(selected === 'Dashboard') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'xl:hidden' : '' ]"
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 20 20"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585"
-                                            stroke="currentColor"
-                                            stroke-width="1.5"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                    </svg>
-                                </a>
-
-                                <!-- Submenu Dashboard -->
-                                <div class="overflow-hidden" :class="(selected === 'Dashboard') ? 'block' : 'hidden'">
-                                    <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
-                                        <li>
-                                            <a href="{{ route('dashboard') }}" class="menu-dropdown-item group menu-dropdown-item-active">
-                                                eCommerce
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-
-                            <!-- Menu Item AI Assistant (NEW) -->
-                            <li>
-                                <a
-                                    href="#"
-                                    @click.prevent="selected = (selected === 'AI Assistant' ? '' : 'AI Assistant')"
-                                    class="menu-item group menu-item-inactive"
-                                >
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM9 8C9 7.44772 9.44772 7 10 7H14C14.5523 7 15 7.44772 15 8C15 8.55228 14.5523 9 14 9H10C9.44772 9 9 8.55228 9 8ZM8 12C8 11.4477 8.44772 11 9 11H15C15.5523 11 16 11.4477 16 12C16 12.5523 15.5523 13 15 13H9C8.44772 13 8 12.5523 8 12ZM10 16C10 15.4477 10.4477 15 11 15H13C13.5523 15 14 15.4477 14 16C14 16.5523 13.5523 17 13 17H11C10.4477 17 10 16.5523 10 16Z" fill="currentColor"/>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">AI Assistant</span>
-                                    <span class="bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500 rounded-full px-2 py-0.5 text-xs font-semibold" :class="sidebarToggle ? 'xl:hidden' : ''">NEW</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 </a>
                             </li>
 
-                            <!-- Menu Item E-commerce -->
-                            <li>
-                                <a
-                                    href="#"
-                                    @click.prevent="selected = (selected === 'E-commerce' ? '' : 'E-commerce')"
-                                    class="menu-item group menu-item-inactive"
-                                >
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.25 4C3.25 3.58579 3.58579 3.25 4 3.25H5.5C6.24278 3.25 6.8778 3.79135 6.98563 4.52627L7.20235 6H19.25C19.6841 6 20.0631 6.2796 20.1932 6.69463L21.9432 12.278C22.0526 12.6269 21.963 13.0076 21.7101 13.2687C21.4572 13.5298 21.0779 13.6339 20.7226 13.5393L8.30739 10.2285L8.74235 13.1934C8.83511 13.8258 9.37682 14.2934 10.0156 14.2934H18.5C18.9142 14.2934 19.25 14.6292 19.25 15.0434C19.25 15.4576 18.9142 15.7934 18.5 15.7934H10.0156C8.61428 15.7934 7.42252 14.7647 7.21845 13.3754L5.51437 1.77373C5.46261 1.42087 5.15832 1.16091 4.80178 1.16091H4C3.58579 1.16091 3.25 0.825124 3.25 0.410912C3.25 -0.00329971 3.58579 -0.339088 4 -0.339088H4.80178C5.87141 -0.339088 6.78428 0.440788 6.93955 1.49938L7.01235 2H19.25C20.5524 2 21.6893 2.8388 22.0797 4.0839L23.8297 9.66723C24.1579 10.7139 23.8891 11.856 23.1304 12.6393C22.3717 13.4225 21.2338 13.7348 20.168 13.4506L9.65839 10.648L10.0656 13.4262C10.1584 14.0586 10.7001 14.5262 11.3389 14.5262H18.5C18.9142 14.5262 19.25 14.862 19.25 15.2762C19.25 15.6904 18.9142 16.0262 18.5 16.0262H11.3389C9.9376 16.0262 8.74584 14.9975 8.54177 13.6082L7.33765 5.3934L7.13265 4H4C3.58579 4 3.25 3.66421 3.25 3.25Z" fill="currentColor"/>
-                                        <circle cx="9" cy="19" r="2" fill="currentColor"/>
-                                        <circle cx="17" cy="19" r="2" fill="currentColor"/>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">E-commerce</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </a>
-                            </li>
-
-                            <!-- Menu Item Data Warga (SIPANDU Core) -->
+                            <!-- Modul 3: Manajemen Data Warga (CRUD) -->
                             <li>
                                 <a
                                     href="{{ route('warga.index') }}"
                                     class="menu-item group {{ request()->routeIs('warga.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                                 >
-                                    <svg class="{{ request()->routeIs('warga.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 14.1526 4.3002 16.1184 5.61936 17.616C6.17279 15.3096 8.24852 13.5955 10.7246 13.5955H13.2746C15.7509 13.5955 17.8268 15.31 18.38 17.6167C19.6996 16.119 20.5 14.153 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM17.0246 18.8566V18.8455C17.0246 16.7744 15.3457 15.0955 13.2746 15.0955H10.7246C8.65354 15.0955 6.97461 16.7744 6.97461 18.8455V18.856C8.38223 19.8895 10.1198 20.5 12 20.5C13.8798 20.5 15.6171 19.8898 17.0246 18.8566ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM11.9991 7.25C10.8847 7.25 9.98126 8.15342 9.98126 9.26784C9.98126 10.3823 10.8847 11.2857 11.9991 11.2857C13.1135 11.2857 14.0169 10.3823 14.0169 9.26784C14.0169 8.15342 13.1135 7.25 11.9991 7.25ZM8.48126 9.26784C8.48126 7.32499 10.0563 5.75 11.9991 5.75C13.9419 5.75 15.5169 7.32499 15.5169 9.26784C15.5169 11.2107 13.9419 12.7857 11.9991 12.7857C10.0563 12.7857 8.48126 11.2107 8.48126 9.26784Z" fill="currentColor"/>
+                                    <svg
+                                        class="{{ request()->routeIs('warga.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 14.1526 4.3002 16.1184 5.61936 17.616C6.17279 15.3096 8.24852 13.5955 10.7246 13.5955H13.2746C15.7509 13.5955 17.8268 15.31 18.38 17.6167C19.6996 16.119 20.5 14.153 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM17.0246 18.8566V18.8455C17.0246 16.7744 15.3457 15.0955 13.2746 15.0955H10.7246C8.65354 15.0955 6.97461 16.7744 6.97461 18.8455V18.856C8.38223 19.8895 10.1198 20.5 12 20.5C13.8798 20.5 15.6171 19.8898 17.0246 18.8566ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM11.9991 7.25C10.8847 7.25 9.98126 8.15342 9.98126 9.26784C9.98126 10.3823 10.8847 11.2857 11.9991 11.2857C13.1135 11.2857 14.0169 10.3823 14.0169 9.26784C14.0169 8.15342 13.1135 7.25 11.9991 7.25ZM8.48126 9.26784C8.48126 7.32499 10.0563 5.75 11.9991 5.75C13.9419 5.75 15.5169 7.32499 15.5169 9.26784C15.5169 11.2107 13.9419 12.7857 11.9991 12.7857C10.0563 12.7857 8.48126 11.2107 8.48126 9.26784Z"
+                                            fill="currentColor"
+                                        />
                                     </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Data Warga</span>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">
+                                        Data Warga RT
+                                    </span>
                                 </a>
                             </li>
 
-                            <!-- Menu Item Keuangan Kas RT -->
-                            <li>
-                                <a
-                                    href="{{ route('kas.index') }}"
-                                    class="menu-item group {{ request()->routeIs('kas.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
-                                >
-                                    <svg class="{{ request()->routeIs('kas.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6C3 4.89543 3.89543 4 5 4H19C20.1046 4 21 4.89543 21 6V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6ZM5 5.5C4.72386 5.5 4.5 5.72386 4.5 6V18C4.5 18.2761 4.72386 18.5 5 18.5H19C19.2761 18.5 19.5 18.2761 19.5 18V6C19.5 5.72386 19.2761 5.5 19 5.5H5ZM12 8C10.067 8 8.5 9.567 8.5 11.5C8.5 13.433 10.067 15 12 15C13.933 15 15.5 13.433 15.5 11.5C15.5 9.567 13.933 8 12 8ZM10 11.5C10 10.3954 10.8954 9.5 12 9.5C13.1046 9.5 14 10.3954 14 11.5C14 12.6046 13.1046 13.5 12 13.5C10.8954 13.5 10 12.6046 10 11.5Z" fill="currentColor"/>
-                                    </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Kas Keuangan</span>
-                                </a>
-                            </li>
-
-                            <!-- Menu Item K-Means Clustering -->
+                            <!-- Modul 4: K-Means Clustering (Bansos) -->
                             @if(auth()->user()->isAdmin() || auth()->user()->isKetuaRt())
                             <li>
                                 <a
                                     href="{{ route('clustering.index') }}"
                                     class="menu-item group {{ request()->routeIs('clustering.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                                 >
-                                    <svg class="{{ request()->routeIs('clustering.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 4C3 3.44772 3.44772 3 4 3H20C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4ZM5 5V19H19V5H5ZM7 14C7 13.4477 7.44772 13 8 13H10C10.5523 13 11 13.4477 11 14V17H7V14ZM13 10C13 9.44772 13.4477 9 14 9H16C16.5523 9 17 9.44772 17 10V17H13V10ZM10 7C10 6.44772 10.4477 6 11 6H13C13.5523 6 14 6.44772 14 7V17H10V7Z" fill="currentColor"/>
+                                    <svg
+                                        class="{{ request()->routeIs('clustering.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M3 4C3 3.44772 3.44772 3 4 3H20C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4ZM5 5V19H19V5H5ZM7 14C7 13.4477 7.44772 13 8 13H10C10.5523 13 11 13.4477 11 14V17H7V14ZM13 10C13 9.44772 13.4477 9 14 9H16C16.5523 9 17 9.44772 17 10V17H13V10ZM10 7C10 6.44772 10.4477 6 11 6H13C13.5523 6 14 6.44772 14 7V17H10V7Z"
+                                            fill="currentColor"
+                                        />
                                     </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">K-Means Bansos</span>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">
+                                        K-Means Clustering
+                                    </span>
                                     <span class="bg-brand-50 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400 rounded-full px-2 py-0.5 text-xs font-semibold" :class="sidebarToggle ? 'xl:hidden' : ''">AI</span>
                                 </a>
                             </li>
                             @endif
 
-                            <!-- Menu Item Calendar -->
+                            <!-- Modul: Jadwal Ronda Malam (Untuk Mading & WhatsApp Warga) -->
                             <li>
                                 <a
                                     href="{{ route('ronda.index') }}"
                                     class="menu-item group {{ request()->routeIs('ronda.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                                 >
-                                    <svg class="{{ request()->routeIs('ronda.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 2C8.41421 2 8.75 2.33579 8.75 2.75V3.75H15.25V2.75C15.25 2.33579 15.5858 2 16 2C16.4142 2 16.75 2.33579 16.75 2.75V3.75H18.5C19.7426 3.75 20.75 4.75736 20.75 6V9V19C20.75 20.2426 19.7426 21.25 18.5 21.25H5.5C4.25736 21.25 3.25 20.2426 3.25 19V9V6C3.25 4.75736 4.25736 3.75 5.5 3.75H7.25V2.75C7.25 2.33579 7.58579 2 8 2ZM8 5.25H5.5C5.08579 5.25 4.75 5.58579 4.75 6V8.25H19.25V6C19.25 5.58579 18.9142 5.25 18.5 5.25H16H8ZM19.25 9.75H4.75V19C4.75 19.4142 5.08579 19.75 5.5 19.75H18.5C18.9142 19.75 19.25 19.4142 19.25 19V9.75Z" fill="currentColor"/>
+                                    <svg
+                                        class="{{ request()->routeIs('ronda.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M8 2C8.41421 2 8.75 2.33579 8.75 2.75V3.75H15.25V2.75C15.25 2.33579 15.5858 2 16 2C16.4142 2 16.75 2.33579 16.75 2.75V3.75H18.5C19.7426 3.75 20.75 4.75736 20.75 6V9V19C20.75 20.2426 19.7426 21.25 18.5 21.25H5.5C4.25736 21.25 3.25 20.2426 3.25 19V9V6C3.25 4.75736 4.25736 3.75 5.5 3.75H7.25V2.75C7.25 2.33579 7.58579 2 8 2ZM8 5.25H5.5C5.08579 5.25 4.75 5.58579 4.75 6V8.25H19.25V6C19.25 5.58579 18.9142 5.25 18.5 5.25H16H8ZM19.25 9.75H4.75V19C4.75 19.4142 5.08579 19.75 5.5 19.75H18.5C18.9142 19.75 19.25 19.4142 19.25 19V9.75Z"
+                                            fill="currentColor"
+                                        />
                                     </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Calendar</span>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">
+                                        Jadwal Ronda
+                                    </span>
                                 </a>
                             </li>
+                        </ul>
+                    </div>
 
-                            <!-- Menu Item User Profile -->
+                    <!-- Menu Group: ADMINISTRASI & SISTEM (Admin Only) -->
+                    @if(auth()->user()->isAdmin())
+                    <div>
+                        <h3 class="mb-4 text-xs leading-5 text-gray-400 uppercase tracking-wider font-semibold">
+                            <span class="menu-group-title" :class="sidebarToggle ? 'xl:hidden' : ''">ADMINISTRASI &amp; SISTEM</span>
+                        </h3>
+
+                        <ul class="mb-6 flex flex-col gap-1.5">
+                            <!-- Peran 1: Admin Superadmin (CRUD User Pengguna) -->
                             <li>
                                 <a
                                     href="{{ route('pengguna.index') }}"
                                     class="menu-item group {{ request()->routeIs('pengguna.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                                 >
-                                    <svg class="{{ request()->routeIs('pengguna.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 14.1526 4.3002 16.1184 5.61936 17.616C6.17279 15.3096 8.24852 13.5955 10.7246 13.5955H13.2746C15.7509 13.5955 17.8268 15.31 18.38 17.6167C19.6996 16.119 20.5 14.153 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM17.0246 18.8566V18.8455C17.0246 16.7744 15.3457 15.0955 13.2746 15.0955H10.7246C8.65354 15.0955 6.97461 16.7744 6.97461 18.8455V18.856C8.38223 19.8895 10.1198 20.5 12 20.5C13.8798 20.5 15.6171 19.8898 17.0246 18.8566ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM11.9991 7.25C10.8847 7.25 9.98126 8.15342 9.98126 9.26784C9.98126 10.3823 10.8847 11.2857 11.9991 11.2857C13.1135 11.2857 14.0169 10.3823 14.0169 9.26784C14.0169 8.15342 13.1135 7.25 11.9991 7.25ZM8.48126 9.26784C8.48126 7.32499 10.0563 5.75 11.9991 5.75C13.9419 5.75 15.5169 7.32499 15.5169 9.26784C15.5169 11.2107 13.9419 12.7857 11.9991 12.7857C10.0563 12.7857 8.48126 11.2107 8.48126 9.26784Z" fill="currentColor"/>
+                                    <svg
+                                        class="{{ request()->routeIs('pengguna.*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM11.0991 7.52507C11.0991 8.02213 11.5021 8.42507 11.9991 8.42507H12.0001C12.4972 8.42507 12.9001 8.02213 12.9001 7.52507C12.9001 7.02802 12.4972 6.62507 12.0001 6.62507H11.9991C11.5021 6.62507 11.0991 7.02802 11.0991 7.52507ZM12.0001 17.3714C11.5859 17.3714 11.2501 17.0356 11.2501 16.6214V10.9449C11.2501 10.5307 11.5859 10.1949 12.0001 10.1949C12.4143 10.1949 12.7501 10.5307 12.7501 10.9449V16.6214C12.7501 17.0356 12.4143 17.3714 12.0001 17.3714Z" fill="currentColor"/>
                                     </svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">User Profile</span>
-                                </a>
-                            </li>
-
-                            <!-- Menu Item Task -->
-                            <li>
-                                <a href="#" class="menu-item group menu-item-inactive">
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Task</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </a>
-                            </li>
-
-                            <!-- Menu Item Forms -->
-                            <li>
-                                <a href="#" class="menu-item group menu-item-inactive">
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 3.25C4.25736 3.25 3.25 4.25736 3.25 5.5V18.5C3.25 19.7426 4.25736 20.75 5.5 20.75H18.5001C19.7427 20.75 20.7501 19.7426 20.7501 18.5V5.5C20.7501 4.25736 19.7427 3.25 18.5001 3.25H5.5ZM4.75 5.5C4.75 5.08579 5.08579 4.75 5.5 4.75H18.5001C18.9143 4.75 19.2501 5.08579 19.2501 5.5V18.5C19.2501 18.9142 18.9143 19.25 18.5001 19.25H5.5C5.08579 19.25 4.75 18.9142 4.75 18.5V5.5ZM6.25005 9.7143C6.25005 9.30008 6.58583 8.9643 7.00005 8.9643L17 8.96429C17.4143 8.96429 17.75 9.30008 17.75 9.71429C17.75 10.1285 17.4143 10.4643 17 10.4643L7.00005 10.4643C6.58583 10.4643 6.25005 10.1285 6.25005 9.7143ZM6.25005 14.2857C6.25005 13.8715 6.58583 13.5357 7.00005 13.5357H17C17.4143 13.5357 17.75 13.8715 17.75 14.2857C17.75 14.6999 17.4143 15.0357 17 15.0357H7.00005C6.58583 15.0357 6.25005 14.6999 6.25005 14.2857Z" fill="currentColor"/></svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Forms</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </a>
-                            </li>
-
-                            <!-- Menu Item Tables -->
-                            <li>
-                                <a href="#" class="menu-item group menu-item-inactive">
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 4C3 3.44772 3.44772 3 4 3H20C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4ZM5 5V9H10V5H5ZM12 5V9H19V5H12ZM19 11H12V15H19V11ZM19 17H12V19H19V17ZM10 19V17H5V19H10ZM5 15H10V11H5V15Z" fill="currentColor"/></svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Tables</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </a>
-                            </li>
-
-                            <!-- Menu Item Pages -->
-                            <li>
-                                <a href="#" class="menu-item group menu-item-inactive">
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 4C4 2.89543 4.89543 2 6 2H14.5858C15.1162 2 15.6249 2.21071 16 2.58579L19.4142 6C19.7893 6.37508 20 6.88378 20 7.41421V20C20 21.1046 19.1046 22 18 22H6C4.89543 22 4 21.1046 4 20V4ZM6 3.5C5.72386 3.5 5.5 3.72386 5.5 4V20C5.5 20.2761 5.72386 20.5 6 20.5H18C18.2761 20.5 18.5 20.2761 18.5 20V7.5H15C14.1716 7.5 13.5 6.82843 13.5 6V3.5H6Z" fill="currentColor"/></svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Pages</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </a>
-                            </li>
-
-                            <!-- Menu Item Layouts (NEW) -->
-                            <li>
-                                <a href="#" class="menu-item group menu-item-inactive">
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 4C3 2.89543 3.89543 2 5 2H19C20.1046 2 21 2.89543 21 4V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V4ZM5 3.5H19C19.2761 3.5 19.5 3.72386 19.5 4V8H4.5V4C4.5 3.72386 4.72386 3.5 5 3.5ZM4.5 9.5V20C4.5 20.2761 4.72386 20.5 5 20.5H10.5V9.5H4.5ZM12 20.5H19C19.2761 20.5 19.5 20.2761 19.5 20V9.5H12V20.5Z" fill="currentColor"/></svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Layouts</span>
-                                    <span class="bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500 rounded-full px-2 py-0.5 text-xs font-semibold" :class="sidebarToggle ? 'xl:hidden' : ''">NEW</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">
+                                        Kelola Pengguna
+                                    </span>
                                 </a>
                             </li>
                         </ul>
                     </div>
-
-                    <!-- Menu Group: SUPPORT -->
-                    <div>
-                        <h3 class="mb-4 text-xs leading-5 text-gray-400 uppercase tracking-wider font-semibold">
-                            <span class="menu-group-title" :class="sidebarToggle ? 'xl:hidden' : ''">SUPPORT</span>
-                        </h3>
-
-                        <ul class="mb-6 flex flex-col gap-1">
-                            <!-- Support Chat -->
-                            <li>
-                                <a href="#" class="menu-item group menu-item-inactive">
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.02944 2 11C2 13.0874 2.77587 15.0069 4.09315 16.5161L3.06066 19.6135C2.88725 20.1338 3.36622 20.6128 3.88648 20.4393L6.98389 19.4069C8.49308 20.7241 10.4126 21.5 12.5 21.5C18.0228 21.5 22.5 17.4706 22.5 12.5C22.5 7.52944 18.0228 2 12 2Z" fill="currentColor"/><circle cx="8" cy="11.5" r="1" fill="#fff"/><circle cx="12" cy="11.5" r="1" fill="#fff"/><circle cx="16" cy="11.5" r="1" fill="#fff"/></svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Chat</span>
-                                </a>
-                            </li>
-
-                            <!-- Support Ticket (NEW) -->
-                            <li>
-                                <a href="#" class="menu-item group menu-item-inactive">
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 14l9-5-9-5-9 5 9 5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Support Ticket</span>
-                                    <span class="bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500 rounded-full px-2 py-0.5 text-xs font-semibold" :class="sidebarToggle ? 'xl:hidden' : ''">NEW</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </a>
-                            </li>
-
-                            <!-- Support Email -->
-                            <li>
-                                <a href="#" class="menu-item group menu-item-inactive">
-                                    <svg class="menu-item-icon-inactive" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Email</span>
-                                    <svg class="menu-item-arrow" :class="sidebarToggle ? 'xl:hidden' : ''" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    @endif
                 </nav>
             </div>
         </aside>
@@ -367,14 +272,15 @@
                             <svg :class="sidebarToggle ? 'hidden' : 'block xl:hidden'" class="fill-current xl:hidden" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.25 6C3.25 5.58579 3.58579 5.25 4 5.25L20 5.25C20.4142 5.25 20.75 5.58579 20.75 6C20.75 6.41421 20.4142 6.75 20 6.75L4 6.75C3.58579 6.75 3.25 6.41422 3.25 6ZM3.25 18C3.25 17.5858 3.58579 17.25 4 17.25L20 17.25C20.4142 17.25 20.75 17.5858 20.75 18C20.75 18.4142 20.4142 18.75 20 18.75L4 18.75C3.58579 18.75 3.25 18.4142 3.25 18ZM4 11.25C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75L12 12.75C12.4142 12.75 12.75 12.4142 12.75 12C12.75 11.5858 12.4142 11.25 12 11.25L4 11.25Z" fill=""/></svg>
                         </button>
 
-                        <a href="{{ route('dashboard') }}" class="xl:hidden">
-                            <img class="dark:hidden h-7 w-auto" src="/images/logo/logo.svg" alt="Logo" />
-                            <img class="hidden dark:block h-7 w-auto" src="/images/logo/logo-dark.svg" alt="Logo" />
+                        <a href="{{ route('dashboard') }}" class="xl:hidden flex items-center gap-2">
+                            <img class="dark:hidden h-7 w-auto" src="/images/logo/logo.svg" alt="SIPANDU" />
+                            <img class="hidden dark:block h-7 w-auto" src="/images/logo/logo-dark.svg" alt="SIPANDU" />
+                            <span class="rounded bg-brand-50 px-1.5 py-0.5 text-[10px] font-bold text-brand-600">RT 03</span>
                         </a>
 
-                        <!-- Search Input (Exact TailAdmin Template) -->
+                        <!-- Search Bar -->
                         <div class="hidden xl:block">
-                            <form action="#" method="GET">
+                            <form action="{{ route('warga.index') }}" method="GET">
                                 <div class="relative">
                                     <span class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
                                         <svg class="fill-gray-500 dark:fill-gray-400" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -384,13 +290,14 @@
                                     <input
                                         id="search-input"
                                         type="text"
-                                        placeholder="Search or type command..."
+                                        name="search"
+                                        placeholder="Cari NIK, Nama Warga, atau No KK..."
                                         class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden xl:w-107.5 dark:border-gray-800 dark:bg-white/3 dark:text-white/90 dark:placeholder:text-white/30"
                                     />
                                     <button
                                         id="search-button"
-                                        type="button"
-                                        class="absolute top-1/2 right-2.5 inline-flex -translate-y-1/2 items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-1.75 py-[4.5px] text-xs tracking-[-0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/3 dark:text-gray-400"
+                                        type="submit"
+                                        class="absolute top-1/2 right-2.5 inline-flex -translate-y-1/2 items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-1.75 py-[4.5px] text-xs tracking-[-0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/3 dark:text-gray-400 cursor-pointer"
                                     >
                                         <span> ⌘ </span>
                                         <span> K </span>
@@ -403,11 +310,11 @@
                     <!-- Right Controls Area -->
                     <div :class="menuToggle ? 'flex' : 'hidden'" class="w-full items-center justify-between gap-4 px-5 py-4 xl:flex xl:justify-end xl:px-0">
                         <div class="flex items-center gap-2 2xsm:gap-3">
-                            <!-- Dark Mode Toggler (Exact TailAdmin Template) -->
+                            <!-- Dark Mode Toggler -->
                             <button
                                 class="relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white cursor-pointer"
                                 @click.prevent="toggleDarkMode()"
-                                title="Toggle Theme"
+                                title="Ganti Mode Gelap / Terang"
                             >
                                 <svg class="hidden dark:block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M9.99998 1.5415C10.4142 1.5415 10.75 1.87729 10.75 2.2915V3.5415C10.75 3.95572 10.4142 4.2915 9.99998 4.2915C9.58577 4.2915 9.24998 3.95572 9.24998 3.5415V2.2915C9.24998 1.87729 9.58577 1.5415 9.99998 1.5415ZM10.0009 6.79327C8.22978 6.79327 6.79402 8.22904 6.79402 10.0001C6.79402 11.7712 8.22978 13.207 10.0009 13.207C11.772 13.207 13.2078 11.7712 13.2078 10.0001C13.2078 8.22904 11.772 6.79327 10.0009 6.79327ZM5.29402 10.0001C5.29402 7.40061 7.40135 5.29327 10.0009 5.29327C12.6004 5.29327 14.7078 7.40061 14.7078 10.0001C14.7078 12.5997 12.6004 14.707 10.0009 14.707C7.40135 14.707 5.29402 12.5997 5.29402 10.0001ZM15.9813 5.08035C16.2742 4.78746 16.2742 4.31258 15.9813 4.01969C15.6884 3.7268 15.2135 3.7268 14.9207 4.01969L14.0368 4.90357C13.7439 5.19647 13.7439 5.67134 14.0368 5.96423C14.3297 6.25713 14.8045 6.25713 15.0974 5.96423L15.9813 5.08035ZM18.4577 10.0001C18.4577 10.4143 18.1219 10.7501 17.7077 10.7501H16.4577C16.0435 10.7501 15.7077 10.4143 15.7077 10.0001C15.7077 9.58592 16.0435 9.25013 16.4577 9.25013H17.7077C18.1219 9.25013 18.4577 9.58592 18.4577 10.0001ZM14.9207 15.9806C15.2135 16.2735 15.6884 16.2735 15.9813 15.9806C16.2742 15.6877 16.2742 15.2128 15.9813 14.9199L15.0974 14.036C14.8045 13.7431 14.3297 13.7431 14.0368 14.036C13.7439 14.3289 13.7439 14.8038 14.0368 15.0967L14.9207 15.9806ZM9.99998 15.7088C10.4142 15.7088 10.75 16.0445 10.75 16.4588V17.7088C10.75 18.123 10.4142 18.4588 9.99998 18.4588C9.58577 18.4588 9.24998 18.123 9.24998 17.7088V16.4588C9.24998 16.0445 9.58577 15.7088 9.99998 15.7088ZM5.96356 15.0972C6.25646 14.8043 6.25646 14.3295 5.96356 14.0366C5.67067 13.7437 5.1958 13.7437 4.9029 14.0366L4.01902 14.9204C3.72613 15.2133 3.72613 15.6882 4.01902 15.9811C4.31191 16.274 4.78679 16.274 5.07968 15.9811L5.96356 15.0972ZM4.29224 10.0001C4.29224 10.4143 3.95645 10.7501 3.54224 10.7501H2.29224C1.87802 10.7501 1.54224 10.4143 1.54224 10.0001C1.54224 9.58592 1.87802 9.25013 2.29224 9.25013H3.54224C3.95645 9.25013 4.29224 9.58592 4.29224 10.0001ZM4.9029 5.9637C5.1958 6.25659 5.67067 6.25659 5.96356 5.9637C6.25646 5.6708 6.25646 5.19593 5.96356 4.90303L5.07968 4.01915C4.78679 3.72626 4.31191 3.72626 4.01902 4.01915C3.72613 4.31204 3.72613 4.78692 4.01902 5.07981L4.9029 5.9637Z" fill="currentColor"/>
@@ -417,7 +324,7 @@
                                 </svg>
                             </button>
 
-                            <!-- Notification Menu Area (Exact TailAdmin Bell with Orange Dot) -->
+                            <!-- Notification Menu Area with Orange Ping Dot -->
                             <div class="relative" x-data="{ dropdownOpen: false, notifying: true }" @click.outside="dropdownOpen = false">
                                 <button
                                     class="relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white cursor-pointer"
@@ -434,32 +341,37 @@
                                 <!-- Notification Dropdown -->
                                 <div
                                     x-show="dropdownOpen"
-                                    class="shadow-theme-lg dark:bg-gray-dark absolute -left-15 mt-4.25 flex h-96 w-80 flex-col rounded-2xl border border-gray-200 bg-white p-3 xl:right-0 xl:left-auto dark:border-gray-800 z-50"
+                                    class="shadow-theme-lg dark:bg-gray-dark absolute -left-15 mt-4.25 flex h-80 w-80 flex-col rounded-2xl border border-gray-200 bg-white p-3 xl:right-0 xl:left-auto dark:border-gray-800 z-50"
                                     x-cloak
                                 >
                                     <div class="mb-3 flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
-                                        <h5 class="text-base font-semibold text-gray-800 dark:text-white/90">Notification</h5>
+                                        <h5 class="text-base font-semibold text-gray-800 dark:text-white/90">Pemberitahuan Sistem</h5>
                                         <button @click="dropdownOpen = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-white">✕</button>
                                     </div>
                                     <div class="overflow-y-auto space-y-2 text-xs text-gray-600 dark:text-gray-400">
-                                        <div class="p-2 rounded-lg bg-gray-50 dark:bg-white/5">
-                                            <p class="font-medium text-gray-800 dark:text-white">SIPANDU RT 03 Aktif</p>
-                                            <p class="text-[11px] text-gray-400">Dashboard terhubung ke database warga RT 03.</p>
+                                        <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-gray-800">
+                                            <p class="font-semibold text-gray-800 dark:text-white">SIPANDU RT 03 Siap</p>
+                                            <p class="mt-0.5 text-gray-500">Kelurahan Kedaung &bull; Sistem Terpadu Aktif.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- User Profile Area (Exact Musharof / owner.png) -->
+                        <!-- User Profile Area -->
                         <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
                             <a class="flex items-center text-gray-700 dark:text-gray-400 cursor-pointer" href="#" @click.prevent="dropdownOpen = !dropdownOpen">
-                                <span class="mr-3 h-11 w-11 overflow-hidden rounded-full">
-                                    <img src="/images/user/owner.png" alt="Musharof" class="h-full w-full object-cover" />
+                                <span class="mr-3 h-11 w-11 overflow-hidden rounded-full ring-2 ring-brand-500/30">
+                                    <img src="/images/user/owner.png" alt="Avatar" class="h-full w-full object-cover" />
                                 </span>
-                                <span class="text-theme-sm mr-1 block font-medium dark:text-white/90">
-                                    {{ auth()->user()->name ?? 'Musharof' }}
-                                </span>
+                                <div class="text-left hidden sm:block mr-2">
+                                    <span class="text-theme-sm block font-semibold text-gray-800 dark:text-white/90 leading-tight">
+                                        {{ auth()->user()->name }}
+                                    </span>
+                                    <span class="text-theme-xs block text-brand-600 dark:text-brand-400 font-medium">
+                                        {{ auth()->user()->role_label }}
+                                    </span>
+                                </div>
                                 <svg :class="dropdownOpen && 'rotate-180'" class="stroke-gray-500 dark:stroke-gray-400 transition" width="18" height="20" viewBox="0 0 18 20" fill="none">
                                     <path d="M4.3125 8.65625L9 13.3437L13.6875 8.65625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -471,37 +383,40 @@
                                 class="shadow-theme-lg dark:bg-gray-dark absolute right-0 mt-4.25 flex w-65 flex-col rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-800 z-50"
                                 x-cloak
                             >
-                                <div>
-                                    <span class="text-theme-sm block font-medium text-gray-700 dark:text-gray-300">
-                                        {{ auth()->user()->name ?? 'Musharof' }}
+                                <div class="border-b border-gray-100 dark:border-gray-800 pb-2.5 mb-2">
+                                    <span class="text-theme-sm block font-bold text-gray-800 dark:text-white/90">
+                                        {{ auth()->user()->name }}
                                     </span>
-                                    <span class="text-theme-xs mt-0.5 block text-gray-500 dark:text-gray-400">
-                                        {{ auth()->user()->email ?? 'musharof@tailadmin.com' }}
+                                    <span class="text-theme-xs block text-gray-500 dark:text-gray-400">
+                                        {{ auth()->user()->email }}
+                                    </span>
+                                    <span class="inline-block mt-1 text-[10px] rounded bg-brand-50 px-2 py-0.5 font-bold text-brand-600 dark:bg-brand-500/15 dark:text-brand-400 uppercase">
+                                        {{ auth()->user()->role_label }}
                                     </span>
                                 </div>
 
-                                <ul class="flex flex-col gap-1 border-b border-gray-200 pt-4 pb-3 dark:border-gray-800 text-sm">
+                                <ul class="flex flex-col gap-1 border-b border-gray-100 dark:border-gray-800 pb-2 mb-2 text-sm">
+                                    @if(auth()->user()->isAdmin())
                                     <li>
                                         <a href="{{ route('pengguna.index') }}" class="group text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
-                                            Edit profile
+                                            Kelola Akun Pengguna
                                         </a>
                                     </li>
+                                    @endif
                                     <li>
-                                        <a href="#" class="group text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
-                                            Account settings
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="group text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
-                                            Support
+                                        <a href="{{ route('dashboard') }}" class="group text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
+                                            Dashboard
                                         </a>
                                     </li>
                                 </ul>
 
-                                <form method="POST" action="{{ route('logout') }}" class="mt-2">
+                                <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="group text-theme-sm flex w-full items-center gap-3 rounded-lg px-3 py-2 font-medium text-error-600 hover:bg-error-50 dark:hover:bg-error-500/10 dark:text-error-400 cursor-pointer">
-                                        Sign out
+                                    <button type="submit" class="group text-theme-sm flex w-full items-center gap-2 rounded-lg px-3 py-2 font-semibold text-error-600 hover:bg-error-50 dark:hover:bg-error-500/10 dark:text-error-400 cursor-pointer">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                        </svg>
+                                        Keluar Sistem
                                     </button>
                                 </form>
                             </div>

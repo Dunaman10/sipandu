@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ronda_schedule_id')->constrained('ronda_schedules')->cascadeOnDelete();
             $table->foreignId('warga_id')->constrained('wargas')->cascadeOnDelete();
-            $table->enum('status_kehadiran', ['hadir', 'izin', 'alpha', 'digantikan'])->default('alpha');
             $table->text('catatan_keterangan')->nullable();
             $table->timestamps();
         });

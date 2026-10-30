@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Warga;
+use App\Services\SimpleXlsxExporter;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,10 +30,6 @@ class WargaController extends Controller
 
         if ($request->filled('jenis_kelamin')) {
             $query->where('jenis_kelamin', $request->input('jenis_kelamin'));
-        }
-
-        if ($request->filled('status_iuran')) {
-            $query->where('status_iuran', $request->input('status_iuran'));
         }
 
         if ($request->filled('kondisi_rumah')) {
@@ -65,8 +62,7 @@ class WargaController extends Controller
             'jumlah_tanggungan' => ['required', 'integer', 'min:0'],
             'status_kepemilikan_rumah' => ['required', 'in:milik_sendiri,sewa_kontrak,menumpang'],
             'kondisi_rumah' => ['required', 'in:layak_huni,kurang_layak,tidak_layak'],
-            'status_iuran' => ['required', 'in:lancar,menunggak'],
-            'catatan_bendahara' => ['nullable', 'string'],
+            'keterangan' => ['nullable', 'string'],
         ]);
 
         $birthDate = Carbon::parse($validated['tanggal_lahir']);
@@ -104,7 +100,7 @@ class WargaController extends Controller
 
     public function show(Warga $warga)
     {
-        $warga->load(['createdBy', 'updatedBy', 'kasWargas', 'rondaParticipants.schedule', 'clusteringResults.session']);
+        $warga->load(['createdBy', 'updatedBy', 'rondaParticipants.schedule', 'clusteringResults.session']);
         return view('warga.show', compact('warga'));
     }
 
@@ -129,8 +125,7 @@ class WargaController extends Controller
             'jumlah_tanggungan' => ['required', 'integer', 'min:0'],
             'status_kepemilikan_rumah' => ['required', 'in:milik_sendiri,sewa_kontrak,menumpang'],
             'kondisi_rumah' => ['required', 'in:layak_huni,kurang_layak,tidak_layak'],
-            'status_iuran' => ['required', 'in:lancar,menunggak'],
-            'catatan_bendahara' => ['nullable', 'string'],
+            'keterangan' => ['nullable', 'string'],
         ]);
 
         $birthDate = Carbon::parse($validated['tanggal_lahir']);
@@ -177,15 +172,73 @@ class WargaController extends Controller
             $query->where('status_ktp', $request->input('status_ktp'));
         }
 
-        if ($request->filled('status_iuran')) {
-            $query->where('status_iuran', $request->input('status_iuran'));
-        }
-
         $wargas = $query->orderBy('nama_lengkap', 'asc')->get();
 
         $pdf = Pdf::loadView('reports.warga_pdf', compact('wargas'))
             ->setPaper('a4', 'landscape');
 
         return $pdf->stream('Laporan_Data_Warga_RT03_' . date('Ymd_His') . '.pdf');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $query = Warga::query();
+
+        if ($request->filled('status_ktp')) {
+            $query->where('status_ktp', $request->input('status_ktp'));
+        }
+
+        if ($request->filled('kondisi_rumah')) {
+            $query->where('kondisi_rumah', $request->input('kondisi_rumah'));
+        }
+
+        $wargas = $query->orderBy('nama_lengkap', 'asc')->get();
+
+        $headers = [
+            'No',
+            'Nama Lengkap',
+            'NIK',
+            'No. KK',
+            'Jenis Kelamin',
+            'Tempat Lahir',
+            'Tanggal Lahir',
+            'Usia (Tahun)',
+            'Alamat Blok',
+            'Status KTP',
+            'Pekerjaan',
+            'Penghasilan Bulanan (Rp)',
+            'Skor Ekonomi',
+            'Jumlah Tanggungan',
+            'Status Kepemilikan Rumah',
+            'Kondisi Rumah',
+            'Keterangan Khusus',
+        ];
+
+        $rows = [];
+        foreach ($wargas as $index => $w) {
+            $rows[] = [
+                $index + 1,
+                $w->nama_lengkap,
+                (string) $w->nik,
+                (string) $w->no_kk,
+                $w->jenis_kelamin_label,
+                $w->tempat_lahir ?? '-',
+                $w->tanggal_lahir ? $w->tanggal_lahir->format('d/m/Y') : '-',
+                (int) $w->usia,
+                $w->alamat_blok,
+                $w->status_ktp === 'ada' ? 'Ada' : 'Belum Ada',
+                $w->pekerjaan,
+                (float) $w->penghasilan_bulanan,
+                (int) $w->skor_ekonomi,
+                (int) $w->jumlah_tanggungan,
+                ucwords(str_replace('_', ' ', $w->status_kepemilikan_rumah)),
+                ucwords(str_replace('_', ' ', $w->kondisi_rumah)),
+                $w->keterangan ?? '-',
+            ];
+        }
+
+        $filename = 'Laporan_Data_Warga_RT03_' . date('Ymd_His') . '.xlsx';
+
+        return SimpleXlsxExporter::download($filename, 'Data Warga RT03', $headers, $rows);
     }
 }

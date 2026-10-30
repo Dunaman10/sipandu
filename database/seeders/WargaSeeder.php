@@ -35,8 +35,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'tidak_layak',
                 'skor_kondisi_rumah' => 3,
-                'status_iuran' => 'menunggak',
-                'catatan_bendahara' => 'Menunggak iuran 2 bulan karena pekerjaan serabutan',
+                'keterangan' => 'Pekerjaan serabutan, penghasilan tidak tetap',
             ],
             [
                 'nik' => '3274012507880002',
@@ -55,8 +54,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Iuran selalu dibayar tepat waktu diawal bulan',
+                'keterangan' => 'Kondisi ekonomi stabil',
             ],
             [
                 'nik' => '3274014909920003',
@@ -75,8 +73,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'kurang_layak',
                 'skor_kondisi_rumah' => 2,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Iuran lancar dengan cicilan mingguan',
+                'keterangan' => 'Penghasilan mingguan dari usaha kecil',
             ],
             [
                 'nik' => '3274010101800004',
@@ -95,8 +92,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Pembayaran lunas setahun di muka',
+                'keterangan' => 'Keluarga mampu dan mandiri',
             ],
             [
                 'nik' => '3274011504950005',
@@ -115,8 +111,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'kurang_layak',
                 'skor_kondisi_rumah' => 2,
-                'status_iuran' => 'menunggak',
-                'catatan_bendahara' => 'KTP masih domisili asal, sedang dibantu mutasi RT',
+                'keterangan' => 'KTP masih domisili asal, sedang dibantu mutasi RT',
             ],
             [
                 'nik' => '3274012010750006',
@@ -135,8 +130,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'menumpang',
                 'kondisi_rumah' => 'tidak_layak',
                 'skor_kondisi_rumah' => 3,
-                'status_iuran' => 'menunggak',
-                'catatan_bendahara' => 'Sering terkendala proyek sepi',
+                'keterangan' => 'Penghasilan bergantung pada proyek',
             ],
             [
                 'nik' => '3274010303820007',
@@ -155,8 +149,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Lancar dan donatur sukarela kegiatan RT',
+                'keterangan' => 'Donatur sukarela kegiatan sosial RT',
             ],
             [
                 'nik' => '3274011406890008',
@@ -175,8 +168,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Lancar via transfer bank',
+                'keterangan' => 'Pekerja tetap dengan penghasilan rutin',
             ],
             [
                 'nik' => '3274012211680009',
@@ -195,8 +187,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'kurang_layak',
                 'skor_kondisi_rumah' => 2,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Lancar, tinggal bersama istri lansia',
+                'keterangan' => 'Tinggal bersama istri lansia',
             ],
             [
                 'nik' => '3274011005980010',
@@ -215,8 +206,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'tidak_layak',
                 'skor_kondisi_rumah' => 3,
-                'status_iuran' => 'menunggak',
-                'catatan_bendahara' => 'Prioritas bantuan sembako dan renovasi RT',
+                'keterangan' => 'Prioritas bantuan sembako dan renovasi RT',
             ],
             [
                 'nik' => '3274011808720011',
@@ -235,8 +225,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Iuran sangat tertib',
+                'keterangan' => 'Aktif dalam kegiatan warga',
             ],
             [
                 'nik' => '3274010502900012',
@@ -255,8 +244,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Aktif juga mengkoordinir pos ronda',
+                'keterangan' => 'Aktif juga mengkoordinir pos ronda',
             ],
             [
                 'nik' => '3274012912830013',
@@ -275,8 +263,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'kurang_layak',
                 'skor_kondisi_rumah' => 2,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Iuran lancar setiap tanggal 10',
+                'keterangan' => 'Kondisi ekonomi cukup',
             ],
             [
                 'nik' => '3274011107780014',
@@ -295,8 +282,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'kurang_layak',
                 'skor_kondisi_rumah' => 2,
-                'status_iuran' => 'menunggak',
-                'catatan_bendahara' => 'Sering telat karena modal jualan tertahan',
+                'keterangan' => 'Pedagang kecil, modal usaha terbatas',
             ],
             [
                 'nik' => '3274012403910015',
@@ -315,8 +301,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Iuran lunas via mobile banking',
+                'keterangan' => 'Pekerja kantoran, ekonomi stabil',
             ],
             [
                 'nik' => '3274010804650016',
@@ -335,8 +320,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'tidak_layak',
                 'skor_kondisi_rumah' => 3,
-                'status_iuran' => 'menunggak',
-                'catatan_bendahara' => 'Warga lansia, butuh perhatian khusus bansos RT',
+                'keterangan' => 'Warga lansia, butuh perhatian khusus bansos RT',
             ],
             [
                 'nik' => '3274011609930017',
@@ -355,8 +339,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Lancar, rajin gotong royong',
+                'keterangan' => 'Rajin mengikuti gotong royong',
             ],
             [
                 'nik' => '3274012802870018',
@@ -375,8 +358,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'milik_sendiri',
                 'kondisi_rumah' => 'layak_huni',
                 'skor_kondisi_rumah' => 1,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Sangat aktif dalam musyawarah warga',
+                'keterangan' => 'Sangat aktif dalam musyawarah warga',
             ],
             [
                 'nik' => '3274011910960019',
@@ -395,8 +377,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'sewa_kontrak',
                 'kondisi_rumah' => 'kurang_layak',
                 'skor_kondisi_rumah' => 2,
-                'status_iuran' => 'lancar',
-                'catatan_bendahara' => 'Tinggal bersama rekan kerja, iuran selalu patungan',
+                'keterangan' => 'Tinggal bersama rekan kerja (kontrak)',
             ],
             [
                 'nik' => '3274010206700020',
@@ -415,8 +396,7 @@ class WargaSeeder extends Seeder
                 'status_kepemilikan_rumah' => 'menumpang',
                 'kondisi_rumah' => 'tidak_layak',
                 'skor_kondisi_rumah' => 3,
-                'status_iuran' => 'menunggak',
-                'catatan_bendahara' => 'Warga prasejahtera, layak mendapat PKH dan BLT RT',
+                'keterangan' => 'Warga prasejahtera, layak mendapat PKH dan BLT RT',
             ],
         ];
 

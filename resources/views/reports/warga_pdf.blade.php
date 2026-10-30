@@ -103,7 +103,7 @@
                 <th>Penghasilan</th>
                 <th class="text-center">Tgg</th>
                 <th class="text-center">KTP</th>
-                <th class="text-center">Iuran</th>
+                <th class="text-center">Kondisi Rumah</th>
             </tr>
         </thead>
         <tbody>
@@ -120,7 +120,7 @@
                 <td class="text-right">{{ $w->formatted_penghasilan }}</td>
                 <td class="text-center">{{ $w->jumlah_tanggungan }}</td>
                 <td class="text-center">{{ ucfirst($w->status_ktp) }}</td>
-                <td class="text-center">{{ ucfirst($w->status_iuran) }}</td>
+                <td class="text-center">{{ ucwords(str_replace('_', ' ', $w->kondisi_rumah)) }}</td>
             </tr>
             @endforeach
         </tbody>

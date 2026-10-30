@@ -66,11 +66,6 @@ class User extends Authenticatable
         return $this->hasMany(Warga::class, 'created_by');
     }
 
-    public function kasWargas(): HasMany
-    {
-        return $this->hasMany(KasWarga::class, 'bendahara_id');
-    }
-
     public function clusteringSessions(): HasMany
     {
         return $this->hasMany(ClusteringSession::class, 'user_id');
