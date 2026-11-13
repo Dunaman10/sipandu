@@ -61,6 +61,10 @@
                         <span class="font-mono font-bold text-gray-800 dark:text-gray-200">{{ $warga->no_kk }}</span>
                     </div>
                     <div class="flex justify-between py-1.5 border-b border-gray-50 dark:border-gray-800/60">
+                        <span class="text-gray-400">Agama:</span>
+                        <span class="font-medium text-gray-800 dark:text-gray-200">{{ $warga->agama ?? 'Islam' }}</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-gray-50 dark:border-gray-800/60">
                         <span class="text-gray-400">Tempat, Tanggal Lahir:</span>
                         <span class="font-medium text-gray-800 dark:text-gray-200">{{ $warga->tempat_lahir ?? '-' }}, {{ $warga->tanggal_lahir->isoFormat('D MMMM Y') }}</span>
                     </div>
@@ -69,20 +73,12 @@
                         <span class="font-medium text-gray-800 dark:text-gray-200">{{ $warga->alamat_blok }}</span>
                     </div>
                     <div class="flex justify-between py-1.5 border-b border-gray-50 dark:border-gray-800/60">
-                        <span class="text-gray-400">Status Kepemilikan:</span>
+                        <span class="text-gray-400">Status Kepemilikan Rumah:</span>
                         <span class="font-medium text-gray-800 dark:text-gray-200">{{ ucwords(str_replace('_', ' ', $warga->status_kepemilikan_rumah)) }}</span>
                     </div>
                     <div class="flex justify-between py-1.5 border-b border-gray-50 dark:border-gray-800/60">
-                        <span class="text-gray-400">Kondisi Fisik Rumah:</span>
-                        <span class="font-bold text-gray-800 dark:text-gray-200">{{ ucwords(str_replace('_', ' ', $warga->kondisi_rumah)) }} (Skor: {{ $warga->skor_kondisi_rumah }})</span>
-                    </div>
-                    <div class="flex justify-between py-1.5 border-b border-gray-50 dark:border-gray-800/60">
                         <span class="text-gray-400">Penghasilan Bulanan:</span>
-                        <span class="font-bold text-emerald-600 dark:text-emerald-400">{{ $warga->formatted_penghasilan }}</span>
-                    </div>
-                    <div class="flex justify-between py-1.5 border-b border-gray-50 dark:border-gray-800/60">
-                        <span class="text-gray-400">Jumlah Tanggungan:</span>
-                        <span class="font-bold text-gray-800 dark:text-gray-200">{{ $warga->jumlah_tanggungan }} Orang</span>
+                        <span class="font-bold text-emerald-600 dark:text-emerald-400">{{ $warga->formatted_penghasilan }} (Skor Ekonomi: {{ $warga->skor_ekonomi }})</span>
                     </div>
                     <div class="flex justify-between gap-4 py-1.5">
                         <span class="text-gray-400 shrink-0">Keterangan:</span>

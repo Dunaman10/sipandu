@@ -36,7 +36,7 @@
             Algoritma K-Means mengelompokkan data warga ke dalam <strong>3 Klaster Kebijakan (K=3)</strong> dengan menghitung jarak terdekat ke titik pusat (centroid) menggunakan rumus <em>Euclidean Distance</em>:
         </p>
         <div class="my-3 rounded-2xl bg-gray-50 p-3 font-mono text-xs text-center text-gray-800 dark:bg-gray-800 dark:text-gray-200">
-            d(x, c) = &radic; [ (x<sub>usia</sub> - c<sub>usia</sub>)&sup2; + (x<sub>ekonomi</sub> - c<sub>ekonomi</sub>)&sup2; + (x<sub>tanggungan</sub> - c<sub>tanggungan</sub>)&sup2; + (x<sub>rumah</sub> - c<sub>rumah</sub>)&sup2; ]
+            d(x, c) = &radic; [ (x<sub>usia</sub> - c<sub>usia</sub>)&sup2; + (x<sub>ekonomi</sub> - c<sub>ekonomi</sub>)&sup2; ]
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
             <div class="rounded-xl border border-rose-100 bg-rose-50/60 p-3 dark:border-rose-900/30 dark:bg-rose-950/20">

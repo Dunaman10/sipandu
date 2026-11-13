@@ -56,7 +56,7 @@
                 <span class="text-2xl font-black text-rose-700 dark:text-rose-300">{{ $cluster1Count }} Warga</span>
             </div>
             <p class="mt-2 text-xs font-bold text-rose-900 dark:text-rose-200">Prioritas Bantuan Sosial Utama</p>
-            <p class="mt-1 text-[11px] text-rose-600 dark:text-rose-400">Warga prasejahtera / ekonomi rendah dengan tanggungan keluarga tinggi. Layak menerima PKH, BLT RT, dan bantuan sembako.</p>
+            <p class="mt-1 text-[11px] text-rose-600 dark:text-rose-400">Warga prasejahtera / ekonomi rendah. Layak menerima PKH, BLT RT, dan bantuan sembako.</p>
         </div>
 
         <div class="rounded-3xl border border-amber-200/80 bg-amber-50/50 p-5 dark:border-amber-900/40 dark:bg-amber-950/20 shadow-xs">
@@ -74,7 +74,7 @@
                 <span class="text-2xl font-black text-emerald-700 dark:text-emerald-300">{{ $cluster3Count }} Warga</span>
             </div>
             <p class="mt-2 text-xs font-bold text-emerald-900 dark:text-emerald-200">Mandiri / Mampu</p>
-            <p class="mt-1 text-[11px] text-emerald-600 dark:text-emerald-400">Warga dengan ekonomi mapan dan hunian layak. Direkomendasikan sebagai motor gotong royong dan calon donatur RT.</p>
+            <p class="mt-1 text-[11px] text-emerald-600 dark:text-emerald-400">Warga dengan ekonomi mapan. Direkomendasikan sebagai motor gotong royong dan calon donatur RT.</p>
         </div>
     </div>
 
@@ -97,8 +97,6 @@
                             <th class="pb-1.5">Centroid</th>
                             <th class="pb-1.5">Usia</th>
                             <th class="pb-1.5">Skor Ekonomi</th>
-                            <th class="pb-1.5">Tanggungan</th>
-                            <th class="pb-1.5">Skor Rumah</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700 font-mono">
@@ -107,8 +105,6 @@
                             <td class="py-1.5 font-bold text-brand-600 dark:text-brand-400">C{{ $idx + 1 }}</td>
                             <td class="py-1.5">{{ $cAwal['usia'] }}</td>
                             <td class="py-1.5">{{ $cAwal['skor_ekonomi'] }}</td>
-                            <td class="py-1.5">{{ $cAwal['jumlah_tanggungan'] }}</td>
-                            <td class="py-1.5">{{ $cAwal['skor_kondisi_rumah'] }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -127,8 +123,6 @@
                             <th class="pb-1.5">Centroid</th>
                             <th class="pb-1.5">Usia</th>
                             <th class="pb-1.5">Skor Ekonomi</th>
-                            <th class="pb-1.5">Tanggungan</th>
-                            <th class="pb-1.5">Skor Rumah</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-emerald-200 dark:divide-emerald-800/60 font-mono text-emerald-950 dark:text-emerald-200 font-semibold">
@@ -137,8 +131,6 @@
                             <td class="py-1.5 font-bold text-emerald-700 dark:text-emerald-300">C{{ $idx + 1 }}</td>
                             <td class="py-1.5">{{ $cAkhir['usia'] }}</td>
                             <td class="py-1.5">{{ $cAkhir['skor_ekonomi'] }}</td>
-                            <td class="py-1.5">{{ $cAkhir['jumlah_tanggungan'] }}</td>
-                            <td class="py-1.5">{{ $cAkhir['skor_kondisi_rumah'] }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -182,7 +174,7 @@
                         <th class="py-3.5 px-4">No</th>
                         <th class="py-3.5 px-4">Nama Lengkap & NIK</th>
                         <th class="py-3.5 px-4">Alamat Blok</th>
-                        <th class="py-3.5 px-4 text-center">Atribut (Usia / Eko / Tgg / Rmh)</th>
+                        <th class="py-3.5 px-4 text-center">Atribut (Usia / Skor Ekonomi)</th>
                         <th class="py-3.5 px-4 font-mono text-center">Jarak C1</th>
                         <th class="py-3.5 px-4 font-mono text-center">Jarak C2</th>
                         <th class="py-3.5 px-4 font-mono text-center">Jarak C3</th>
@@ -203,7 +195,7 @@
                         </td>
                         <td class="py-3 px-4">{{ $res->warga->alamat_blok }}</td>
                         <td class="py-3 px-4 text-center font-mono">
-                            {{ $res->warga->usia }} / {{ $res->warga->skor_ekonomi }} / {{ $res->warga->jumlah_tanggungan }} / {{ $res->warga->skor_kondisi_rumah }}
+                            {{ $res->warga->usia }} / {{ $res->warga->skor_ekonomi }}
                         </td>
                         <td class="py-3 px-4 font-mono text-center {{ $res->cluster_terpilih === 'cluster_1' ? 'font-bold text-rose-600 bg-rose-50/50 dark:bg-rose-950/20' : 'text-gray-500' }}">
                             {{ $res->jarak_c1 }}
@@ -270,8 +262,6 @@
                         <div class="mt-1 font-mono text-[11px] text-gray-600 dark:text-gray-300 space-y-0.5">
                             <div>Usia: <strong>{{ $cVal['usia'] }}</strong></div>
                             <div>Skor Ekonomi: <strong>{{ $cVal['skor_ekonomi'] }}</strong></div>
-                            <div>Tanggungan: <strong>{{ $cVal['jumlah_tanggungan'] }}</strong></div>
-                            <div>Kondisi Rumah: <strong>{{ $cVal['skor_kondisi_rumah'] }}</strong></div>
                         </div>
                     </div>
                     @endforeach

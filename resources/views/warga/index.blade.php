@@ -81,17 +81,17 @@
                 </select>
             </div>
 
-            <!-- Kondisi Rumah -->
+            <!-- Agama -->
             <div>
-                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">Kondisi Rumah</label>
+                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">Agama</label>
                 <select
-                    name="kondisi_rumah"
+                    name="agama"
                     class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                 >
-                    <option value="">Semua Kondisi</option>
-                    <option value="layak_huni" {{ request('kondisi_rumah') == 'layak_huni' ? 'selected' : '' }}>Layak Huni</option>
-                    <option value="kurang_layak" {{ request('kondisi_rumah') == 'kurang_layak' ? 'selected' : '' }}>Kurang Layak</option>
-                    <option value="tidak_layak" {{ request('kondisi_rumah') == 'tidak_layak' ? 'selected' : '' }}>Tidak Layak</option>
+                    <option value="">Semua Agama</option>
+                    @foreach(['Islam', 'Kristen Protestan', 'Katolik', 'Hindu', 'Buddha', 'Konghucu'] as $agamaOption)
+                        <option value="{{ $agamaOption }}" {{ request('agama') == $agamaOption ? 'selected' : '' }}>{{ $agamaOption }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -103,7 +103,7 @@
                 >
                     Filter
                 </button>
-                @if(request()->anyFilled(['search', 'status_ktp', 'jenis_kelamin', 'kondisi_rumah']))
+                @if(request()->anyFilled(['search', 'status_ktp', 'jenis_kelamin', 'agama']))
                 <a
                     href="{{ route('warga.index') }}"
                     class="rounded-xl border border-gray-300 px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 transition"
@@ -124,11 +124,11 @@
                         <th class="py-3.5 px-4">No</th>
                         <th class="py-3.5 px-4">Data Warga</th>
                         <th class="py-3.5 px-4">No. KK</th>
+                        <th class="py-3.5 px-4">Agama</th>
                         <th class="py-3.5 px-4">Alamat Blok</th>
                         <th class="py-3.5 px-4">Pekerjaan</th>
                         <th class="py-3.5 px-4">Penghasilan / Bln</th>
-                        <th class="py-3.5 px-4">Tanggungan</th>
-                        <th class="py-3.5 px-4">Kondisi Rumah</th>
+                        <th class="py-3.5 px-4">Kepemilikan Rumah</th>
                         <th class="py-3.5 px-4">Status KTP</th>
                         <th class="py-3.5 px-4 text-center">Aksi</th>
                     </tr>
@@ -148,22 +148,14 @@
                             </span>
                         </td>
                         <td class="py-3.5 px-4 font-mono text-gray-600 dark:text-gray-400">{{ $warga->no_kk }}</td>
+                        <td class="py-3.5 px-4">{{ $warga->agama ?? 'Islam' }}</td>
                         <td class="py-3.5 px-4 font-medium text-gray-900 dark:text-white">{{ $warga->alamat_blok }}</td>
                         <td class="py-3.5 px-4">{{ $warga->pekerjaan }}</td>
                         <td class="py-3.5 px-4 font-semibold text-gray-900 dark:text-white">
                             {{ $warga->formatted_penghasilan }}
                             <span class="block text-[10px] text-gray-400 font-normal">Skor: {{ $warga->skor_ekonomi }}/5</span>
                         </td>
-                        <td class="py-3.5 px-4 text-center font-bold">{{ $warga->jumlah_tanggungan }} Org</td>
-                        <td class="py-3.5 px-4">
-                            @if($warga->kondisi_rumah === 'layak_huni')
-                                <span class="rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">Layak Huni</span>
-                            @elseif($warga->kondisi_rumah === 'kurang_layak')
-                                <span class="rounded-md bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">Kurang Layak</span>
-                            @else
-                                <span class="rounded-md bg-rose-50 px-2 py-0.5 text-[10px] font-semibold text-rose-700 dark:bg-rose-950/60 dark:text-rose-300">Tidak Layak</span>
-                            @endif
-                        </td>
+                        <td class="py-3.5 px-4 font-medium">{{ ucwords(str_replace('_', ' ', $warga->status_kepemilikan_rumah)) }}</td>
                         <td class="py-3.5 px-4">
                             @if($warga->status_ktp === 'ada')
                                 <span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">Ada</span>
@@ -200,7 +192,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="11" class="py-8 text-center text-gray-400">
+                        <td colspan="10" class="py-8 text-center text-gray-400">
                             Tidak ditemukan data warga yang sesuai dengan kriteria filter.
                         </td>
                     </tr>

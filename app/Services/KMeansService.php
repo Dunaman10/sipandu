@@ -25,7 +25,7 @@ class KMeansService
         }
 
         // 1. Prepare data points
-        // Atribut: [usia, skor_ekonomi, jumlah_tanggungan, skor_kondisi_rumah]
+        // Atribut: [usia, skor_ekonomi]
         $dataPoints = [];
         foreach ($wargas as $warga) {
             $dataPoints[] = [
@@ -35,8 +35,6 @@ class KMeansService
                 'vector' => [
                     'usia' => (float) $warga->usia,
                     'skor_ekonomi' => (float) $warga->skor_ekonomi,
-                    'jumlah_tanggungan' => (float) $warga->jumlah_tanggungan,
-                    'skor_kondisi_rumah' => (float) $warga->skor_kondisi_rumah,
                 ],
             ];
         }
@@ -89,8 +87,6 @@ class KMeansService
                     $sumVector = [
                         'usia' => 0,
                         'skor_ekonomi' => 0,
-                        'jumlah_tanggungan' => 0,
-                        'skor_kondisi_rumah' => 0,
                     ];
                     $count = count($clusterMembers[$i]);
                     foreach ($clusterMembers[$i] as $member) {
@@ -101,8 +97,6 @@ class KMeansService
                     $newCentroids[$i] = [
                         'usia' => round($sumVector['usia'] / $count, 2),
                         'skor_ekonomi' => round($sumVector['skor_ekonomi'] / $count, 2),
-                        'jumlah_tanggungan' => round($sumVector['jumlah_tanggungan'] / $count, 2),
-                        'skor_kondisi_rumah' => round($sumVector['skor_kondisi_rumah'] / $count, 2),
                     ];
                 } else {
                     // Jika cluster kosong, pertahankan centroid sebelumnya
@@ -217,11 +211,11 @@ class KMeansService
 
     protected function rankClustersByNeed(array $finalCentroids): array
     {
-        // Score need: lower skor_ekonomi + higher skor_kondisi_rumah + higher tanggungan
+        // Score need: lower skor_ekonomi + higher usia
         $ranked = [];
         foreach ($finalCentroids as $idx => $centroid) {
             // Need Index: higher score = higher need
-            $needScore = (5 - $centroid['skor_ekonomi']) * 2 + ($centroid['skor_kondisi_rumah'] * 2) + $centroid['jumlah_tanggungan'];
+            $needScore = (5 - $centroid['skor_ekonomi']) * 5 + ($centroid['usia'] * 0.1);
             $ranked[$idx] = [
                 'idx' => $idx,
                 'need_score' => $needScore,

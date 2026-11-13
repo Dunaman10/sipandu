@@ -17,6 +17,7 @@ class Warga extends Model
         'no_kk',
         'nama_lengkap',
         'jenis_kelamin',
+        'agama',
         'tempat_lahir',
         'tanggal_lahir',
         'alamat_blok',
@@ -25,10 +26,7 @@ class Warga extends Model
         'usia',
         'penghasilan_bulanan',
         'skor_ekonomi',
-        'jumlah_tanggungan',
         'status_kepemilikan_rumah',
-        'kondisi_rumah',
-        'skor_kondisi_rumah',
         'keterangan',
         'created_by',
         'updated_by',
@@ -41,8 +39,6 @@ class Warga extends Model
             'usia' => 'integer',
             'penghasilan_bulanan' => 'decimal:2',
             'skor_ekonomi' => 'integer',
-            'jumlah_tanggungan' => 'integer',
-            'skor_kondisi_rumah' => 'integer',
         ];
     }
 

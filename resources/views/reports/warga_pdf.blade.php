@@ -97,13 +97,13 @@
                 <th>NIK</th>
                 <th>No. KK</th>
                 <th class="text-center">L/P</th>
+                <th>Agama</th>
                 <th class="text-center">Usia</th>
                 <th>Alamat Blok</th>
                 <th>Pekerjaan</th>
                 <th>Penghasilan</th>
-                <th class="text-center">Tgg</th>
                 <th class="text-center">KTP</th>
-                <th class="text-center">Kondisi Rumah</th>
+                <th>Kepemilikan Rumah</th>
             </tr>
         </thead>
         <tbody>
@@ -114,13 +114,13 @@
                 <td>{{ $w->nik }}</td>
                 <td>{{ $w->no_kk }}</td>
                 <td class="text-center">{{ $w->jenis_kelamin }}</td>
+                <td>{{ $w->agama ?? 'Islam' }}</td>
                 <td class="text-center">{{ $w->usia }} th</td>
                 <td>{{ $w->alamat_blok }}</td>
                 <td>{{ $w->pekerjaan }}</td>
                 <td class="text-right">{{ $w->formatted_penghasilan }}</td>
-                <td class="text-center">{{ $w->jumlah_tanggungan }}</td>
                 <td class="text-center">{{ ucfirst($w->status_ktp) }}</td>
-                <td class="text-center">{{ ucwords(str_replace('_', ' ', $w->kondisi_rumah)) }}</td>
+                <td>{{ ucwords(str_replace('_', ' ', $w->status_kepemilikan_rumah)) }}</td>
             </tr>
             @endforeach
         </tbody>

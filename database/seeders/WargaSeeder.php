@@ -401,6 +401,8 @@ class WargaSeeder extends Seeder
         ];
 
         foreach ($wargas as $w) {
+            unset($w['jumlah_tanggungan'], $w['kondisi_rumah'], $w['skor_kondisi_rumah']);
+            $w['agama'] = $w['agama'] ?? 'Islam';
             $w['created_by'] = $adminId;
             $w['updated_by'] = $adminId;
             Warga::updateOrCreate(['nik' => $w['nik']], $w);

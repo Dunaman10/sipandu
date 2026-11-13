@@ -13,9 +13,17 @@ return new class extends Migration
     public function up(): void
     {
         if (Schema::hasTable('wargas')) {
+            if (! Schema::hasColumn('wargas', 'agama')) {
+                Schema::table('wargas', function (Blueprint $table) {
+                    $table->enum('agama', ['Islam', 'Kristen Protestan', 'Katolik', 'Hindu', 'Buddha', 'Konghucu'])
+                        ->default('Islam')
+                        ->after('jenis_kelamin');
+                });
+            }
+
             if (! Schema::hasColumn('wargas', 'keterangan')) {
                 Schema::table('wargas', function (Blueprint $table) {
-                    $table->text('keterangan')->nullable()->after('skor_kondisi_rumah');
+                    $table->text('keterangan')->nullable()->after('status_kepemilikan_rumah');
                 });
 
                 if (Schema::hasColumn('wargas', 'catatan_bendahara')) {
@@ -27,11 +35,14 @@ return new class extends Migration
             }
 
             Schema::table('wargas', function (Blueprint $table) {
-                if (Schema::hasColumn('wargas', 'status_iuran')) {
-                    $table->dropColumn('status_iuran');
+                $dropCols = [];
+                foreach (['jumlah_tanggungan', 'kondisi_rumah', 'skor_kondisi_rumah', 'status_iuran', 'catatan_bendahara'] as $col) {
+                    if (Schema::hasColumn('wargas', $col)) {
+                        $dropCols[] = $col;
+                    }
                 }
-                if (Schema::hasColumn('wargas', 'catatan_bendahara')) {
-                    $table->dropColumn('catatan_bendahara');
+                if (! empty($dropCols)) {
+                    $table->dropColumn($dropCols);
                 }
             });
         }
@@ -53,4 +64,3 @@ return new class extends Migration
         // Schema alignment migration
     }
 };
-

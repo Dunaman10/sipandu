@@ -32,8 +32,8 @@ class WargaController extends Controller
             $query->where('jenis_kelamin', $request->input('jenis_kelamin'));
         }
 
-        if ($request->filled('kondisi_rumah')) {
-            $query->where('kondisi_rumah', $request->input('kondisi_rumah'));
+        if ($request->filled('agama')) {
+            $query->where('agama', $request->input('agama'));
         }
 
         $wargas = $query->latest('id')->paginate(10)->withQueryString();
@@ -53,15 +53,14 @@ class WargaController extends Controller
             'no_kk' => ['required', 'string', 'size:16'],
             'nama_lengkap' => ['required', 'string', 'max:150'],
             'jenis_kelamin' => ['required', 'in:L,P'],
+            'agama' => ['required', 'in:Islam,Kristen Protestan,Katolik,Hindu,Buddha,Konghucu'],
             'tempat_lahir' => ['nullable', 'string', 'max:100'],
             'tanggal_lahir' => ['required', 'date'],
             'alamat_blok' => ['required', 'string', 'max:255'],
             'status_ktp' => ['required', 'in:ada,belum'],
             'pekerjaan' => ['required', 'string', 'max:100'],
             'penghasilan_bulanan' => ['required', 'numeric', 'min:0'],
-            'jumlah_tanggungan' => ['required', 'integer', 'min:0'],
             'status_kepemilikan_rumah' => ['required', 'in:milik_sendiri,sewa_kontrak,menumpang'],
-            'kondisi_rumah' => ['required', 'in:layak_huni,kurang_layak,tidak_layak'],
             'keterangan' => ['nullable', 'string'],
         ]);
 
@@ -81,14 +80,6 @@ class WargaController extends Controller
         } else {
             $validated['skor_ekonomi'] = 5;
         }
-
-        // Hitung skor kondisi rumah otomatis
-        $validated['skor_kondisi_rumah'] = match ($validated['kondisi_rumah']) {
-            'layak_huni' => 1,
-            'kurang_layak' => 2,
-            'tidak_layak' => 3,
-            default => 1,
-        };
 
         $validated['created_by'] = auth()->id();
         $validated['updated_by'] = auth()->id();
@@ -116,15 +107,14 @@ class WargaController extends Controller
             'no_kk' => ['required', 'string', 'size:16'],
             'nama_lengkap' => ['required', 'string', 'max:150'],
             'jenis_kelamin' => ['required', 'in:L,P'],
+            'agama' => ['required', 'in:Islam,Kristen Protestan,Katolik,Hindu,Buddha,Konghucu'],
             'tempat_lahir' => ['nullable', 'string', 'max:100'],
             'tanggal_lahir' => ['required', 'date'],
             'alamat_blok' => ['required', 'string', 'max:255'],
             'status_ktp' => ['required', 'in:ada,belum'],
             'pekerjaan' => ['required', 'string', 'max:100'],
             'penghasilan_bulanan' => ['required', 'numeric', 'min:0'],
-            'jumlah_tanggungan' => ['required', 'integer', 'min:0'],
             'status_kepemilikan_rumah' => ['required', 'in:milik_sendiri,sewa_kontrak,menumpang'],
-            'kondisi_rumah' => ['required', 'in:layak_huni,kurang_layak,tidak_layak'],
             'keterangan' => ['nullable', 'string'],
         ]);
 
@@ -143,13 +133,6 @@ class WargaController extends Controller
         } else {
             $validated['skor_ekonomi'] = 5;
         }
-
-        $validated['skor_kondisi_rumah'] = match ($validated['kondisi_rumah']) {
-            'layak_huni' => 1,
-            'kurang_layak' => 2,
-            'tidak_layak' => 3,
-            default => 1,
-        };
 
         $validated['updated_by'] = auth()->id();
 
@@ -172,6 +155,10 @@ class WargaController extends Controller
             $query->where('status_ktp', $request->input('status_ktp'));
         }
 
+        if ($request->filled('agama')) {
+            $query->where('agama', $request->input('agama'));
+        }
+
         $wargas = $query->orderBy('nama_lengkap', 'asc')->get();
 
         $pdf = Pdf::loadView('reports.warga_pdf', compact('wargas'))
@@ -188,8 +175,8 @@ class WargaController extends Controller
             $query->where('status_ktp', $request->input('status_ktp'));
         }
 
-        if ($request->filled('kondisi_rumah')) {
-            $query->where('kondisi_rumah', $request->input('kondisi_rumah'));
+        if ($request->filled('agama')) {
+            $query->where('agama', $request->input('agama'));
         }
 
         $wargas = $query->orderBy('nama_lengkap', 'asc')->get();
@@ -200,6 +187,7 @@ class WargaController extends Controller
             'NIK',
             'No. KK',
             'Jenis Kelamin',
+            'Agama',
             'Tempat Lahir',
             'Tanggal Lahir',
             'Usia (Tahun)',
@@ -208,9 +196,7 @@ class WargaController extends Controller
             'Pekerjaan',
             'Penghasilan Bulanan (Rp)',
             'Skor Ekonomi',
-            'Jumlah Tanggungan',
             'Status Kepemilikan Rumah',
-            'Kondisi Rumah',
             'Keterangan Khusus',
         ];
 
@@ -222,6 +208,7 @@ class WargaController extends Controller
                 (string) $w->nik,
                 (string) $w->no_kk,
                 $w->jenis_kelamin_label,
+                $w->agama ?? 'Islam',
                 $w->tempat_lahir ?? '-',
                 $w->tanggal_lahir ? $w->tanggal_lahir->format('d/m/Y') : '-',
                 (int) $w->usia,
@@ -230,9 +217,7 @@ class WargaController extends Controller
                 $w->pekerjaan,
                 (float) $w->penghasilan_bulanan,
                 (int) $w->skor_ekonomi,
-                (int) $w->jumlah_tanggungan,
                 ucwords(str_replace('_', ' ', $w->status_kepemilikan_rumah)),
-                ucwords(str_replace('_', ' ', $w->kondisi_rumah)),
                 $w->keterangan ?? '-',
             ];
         }

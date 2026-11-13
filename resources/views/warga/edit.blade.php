@@ -87,14 +87,15 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Status KTP <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Agama <span class="text-red-500">*</span></label>
                         <select
-                            name="status_ktp"
+                            name="agama"
                             required
                             class="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-xs text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
                         >
-                            <option value="ada" {{ old('status_ktp', $warga->status_ktp) == 'ada' ? 'selected' : '' }}>Ada (KTP RT 03 / Domisili Lengkap)</option>
-                            <option value="belum" {{ old('status_ktp', $warga->status_ktp) == 'belum' ? 'selected' : '' }}>Belum Ber-KTP</option>
+                            @foreach(['Islam', 'Kristen Protestan', 'Katolik', 'Hindu', 'Buddha', 'Konghucu'] as $agamaOption)
+                                <option value="{{ $agamaOption }}" {{ old('agama', $warga->agama ?? 'Islam') == $agamaOption ? 'selected' : '' }}>{{ $agamaOption }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -141,6 +142,18 @@
 
                 <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
+                        <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Status KTP <span class="text-red-500">*</span></label>
+                        <select
+                            name="status_ktp"
+                            required
+                            class="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-xs text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+                        >
+                            <option value="ada" {{ old('status_ktp', $warga->status_ktp) == 'ada' ? 'selected' : '' }}>Ada (KTP RT 03 / Domisili Lengkap)</option>
+                            <option value="belum" {{ old('status_ktp', $warga->status_ktp) == 'belum' ? 'selected' : '' }}>Belum Ber-KTP</option>
+                        </select>
+                    </div>
+
+                    <div>
                         <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Pekerjaan Utama <span class="text-red-500">*</span></label>
                         <input
                             type="text"
@@ -165,19 +178,6 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Jumlah Tanggungan Keluarga <span class="text-red-500">*</span></label>
-                        <input
-                            type="number"
-                            name="jumlah_tanggungan"
-                            value="{{ old('jumlah_tanggungan', $warga->jumlah_tanggungan) }}"
-                            min="0"
-                            max="20"
-                            required
-                            class="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-xs text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
-                        >
-                    </div>
-
-                    <div>
                         <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Status Kepemilikan Rumah <span class="text-red-500">*</span></label>
                         <select
                             name="status_kepemilikan_rumah"
@@ -189,20 +189,6 @@
                             <option value="menumpang" {{ old('status_kepemilikan_rumah', $warga->status_kepemilikan_rumah) == 'menumpang' ? 'selected' : '' }}>Menumpang</option>
                         </select>
                     </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Kondisi Fisik Rumah <span class="text-red-500">*</span></label>
-                        <select
-                            name="kondisi_rumah"
-                            required
-                            class="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-xs text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
-                        >
-                            <option value="layak_huni" {{ old('kondisi_rumah', $warga->kondisi_rumah) == 'layak_huni' ? 'selected' : '' }}>Layak Huni (Skor: 1)</option>
-                            <option value="kurang_layak" {{ old('kondisi_rumah', $warga->kondisi_rumah) == 'kurang_layak' ? 'selected' : '' }}>Kurang Layak (Skor: 2)</option>
-                            <option value="tidak_layak" {{ old('kondisi_rumah', $warga->kondisi_rumah) == 'tidak_layak' ? 'selected' : '' }}>Tidak Layak Huni (Skor: 3)</option>
-                        </select>
-                    </div>
-
 
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Keterangan Khusus</label>
