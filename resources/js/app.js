@@ -13,7 +13,7 @@ window.Chart = Chart;
 // TailAdmin Theme Manager
 (function () {
     var stored = localStorage.getItem('darkMode');
-    var isDark = stored !== null ? JSON.parse(stored) : true;
+    var isDark = stored === 'true';
 
     if (isDark) {
         document.documentElement.classList.add('dark');

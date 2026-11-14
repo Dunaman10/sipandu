@@ -350,12 +350,12 @@
         </div>
     </div>
 
-    <!-- Modul 3: Tabel Data Warga Terbaru (PRD Modul 3 & TailAdmin Table One Style) -->
+    <!-- Modul 3: Tabel Data Warga Terbaru (PRD Modul 3 & TailAdmin Data Table Style) -->
     <div class="col-span-12">
-        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pt-4 pb-3 sm:px-6 dark:border-gray-800 dark:bg-white/3">
-            <div class="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/3">
+            <div class="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-5 dark:border-gray-800">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+                    <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">
                         Pendaftaran Data Warga Terbaru
                     </h3>
                     <p class="text-theme-xs text-gray-500 dark:text-gray-400">Data kependudukan terbaru di lingkungan RT 03 Kelurahan Kedaung</p>
@@ -365,14 +365,14 @@
                     @if(auth()->user()->isAdmin() || auth()->user()->isKetuaRt())
                     <a
                         href="{{ route('warga.create') }}"
-                        class="text-theme-xs inline-flex items-center gap-1.5 rounded-lg bg-brand-500 px-3 py-2 font-medium text-white shadow-theme-xs hover:bg-brand-600 transition cursor-pointer"
+                        class="text-theme-xs inline-flex h-10 items-center gap-1.5 rounded-lg bg-brand-500 px-3.5 py-2 font-medium text-white shadow-theme-xs hover:bg-brand-600 transition cursor-pointer"
                     >
                         + Tambah Warga
                     </a>
                     @endif
                     <a
                         href="{{ route('warga.index') }}"
-                        class="text-theme-xs shadow-theme-xs inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-2 font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/5"
+                        class="text-theme-xs shadow-theme-xs inline-flex h-10 items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3.5 py-2 font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/5"
                     >
                         Lihat Semua ({{ $totalWarga }})
                     </a>
@@ -380,51 +380,81 @@
             </div>
 
             <div class="max-w-full overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="border-b border-gray-100 dark:border-gray-800">
-                        <tr>
-                            <th class="py-3 pr-4 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Nama &amp; NIK</th>
-                            <th class="py-3 px-4 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Alamat Blok</th>
-                            <th class="py-3 px-4 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Status KTP</th>
-                            <th class="py-3 px-4 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Pekerjaan</th>
-                            <th class="py-3 pl-4 font-medium text-gray-500 text-end text-theme-xs dark:text-gray-400">Aksi</th>
+                <table class="min-w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-100 dark:border-gray-800">
+                            <th class="px-5 py-3 sm:px-6 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Nama &amp; NIK</th>
+                            <th class="px-5 py-3 sm:px-6 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Alamat Blok</th>
+                            <th class="px-5 py-3 sm:px-6 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Pekerjaan</th>
+                            <th class="px-5 py-3 sm:px-6 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">Status KTP</th>
+                            <th class="px-5 py-3 sm:px-6 font-medium text-gray-500 text-end text-theme-xs dark:text-gray-400"></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                         @forelse($recentWargas as $warga)
-                        <tr class="hover:bg-gray-50/60 dark:hover:bg-white/[0.02]">
-                            <td class="py-3 pr-4">
+                        <tr class="hover:bg-gray-50/60 dark:hover:bg-white/[0.02] transition">
+                            <td class="px-5 py-4 sm:px-6">
                                 <div class="flex items-center gap-3">
-                                    <div class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-brand-600 text-theme-xs font-bold dark:bg-brand-500/15 dark:text-brand-400">
+                                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600 text-theme-xs font-bold dark:bg-brand-500/15 dark:text-brand-400">
                                         {{ strtoupper(substr($warga->nama_lengkap, 0, 2)) }}
                                     </div>
                                     <div>
                                         <p class="font-medium text-theme-sm text-gray-800 dark:text-white/90">{{ $warga->nama_lengkap }}</p>
-                                        <p class="text-theme-xs text-gray-400">{{ $warga->nik }}</p>
+                                        <p class="text-theme-xs text-gray-500 dark:text-gray-400 font-mono">{{ $warga->nik }}</p>
                                     </div>
                                 </div>
                             </td>
-                            <td class="py-3 px-4 text-theme-sm text-gray-600 dark:text-gray-300 font-medium">{{ $warga->alamat_blok }}</td>
-                            <td class="py-3 px-4">
+                            <td class="px-5 py-4 sm:px-6 text-theme-sm text-gray-600 dark:text-gray-300 font-medium">{{ $warga->alamat_blok }}</td>
+                            <td class="px-5 py-4 sm:px-6 text-theme-sm text-gray-500 dark:text-gray-400">{{ $warga->pekerjaan ?? '-' }}</td>
+                            <td class="px-5 py-4 sm:px-6">
                                 @if($warga->status_ktp === 'ada')
                                     <span class="inline-flex items-center rounded-full bg-success-50 px-2.5 py-0.5 text-theme-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">Ada KTP</span>
                                 @else
                                     <span class="inline-flex items-center rounded-full bg-warning-50 px-2.5 py-0.5 text-theme-xs font-medium text-warning-600 dark:bg-warning-500/15 dark:text-warning-500">Belum KTP</span>
                                 @endif
                             </td>
-                            <td class="py-3 px-4 text-theme-sm text-gray-600 dark:text-gray-300">{{ $warga->pekerjaan ?? '-' }}</td>
-                            <td class="py-3 pl-4 text-end">
-                                <a
-                                    href="{{ route('warga.show', $warga->id) }}"
-                                    class="inline-flex items-center rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-theme-xs font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
-                                >
-                                    Detail
-                                </a>
+                            <td class="px-5 py-4 sm:px-6 text-end">
+                                <div class="relative inline-block text-left" x-data="{ open: false }">
+                                    <button
+                                        type="button"
+                                        @click="open = !open"
+                                        @click.outside="open = false"
+                                        class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-200 transition cursor-pointer"
+                                    >
+                                        <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                        </svg>
+                                    </button>
+
+                                    <div
+                                        x-show="open"
+                                        x-transition:enter="transition ease-out duration-100"
+                                        x-transition:enter-start="opacity-0 scale-95"
+                                        x-transition:enter-end="opacity-100 scale-100"
+                                        x-cloak
+                                        class="absolute right-0 z-30 mt-1 w-40 origin-top-right rounded-xl border border-gray-200 bg-white p-1.5 shadow-theme-lg dark:border-gray-800 dark:bg-gray-900"
+                                    >
+                                        <a
+                                            href="{{ route('warga.show', $warga->id) }}"
+                                            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5"
+                                        >
+                                            Detail Warga
+                                        </a>
+                                        @if(auth()->user()->isAdmin() || auth()->user()->isKetuaRt())
+                                        <a
+                                            href="{{ route('warga.edit', $warga->id) }}"
+                                            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5"
+                                        >
+                                            Ubah Data
+                                        </a>
+                                        @endif
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="py-6 text-center text-theme-xs text-gray-400">Belum ada data warga terdaftar.</td>
+                            <td colspan="5" class="px-6 py-8 text-center text-theme-xs text-gray-400">Belum ada data warga terdaftar.</td>
                         </tr>
                         @endforelse
                     </tbody>
